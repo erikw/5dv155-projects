@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sv_SE" lang="sv_SE"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <title>Uppgifter</title>
+    <link href="instructions_files/tool_base.css" type="text/css" rel="stylesheet" media="all">
+<link href="instructions_files/tool.css" type="text/css" rel="stylesheet" media="all">
+<script type="text/javascript" language="JavaScript" src="instructions_files/headscripts.js"></script>
+<script type="text/javascript" language="JavaScript">var sakai = sakai || {}; sakai.editor = sakai.editor || {};  sakai.locale = sakai.locale || {};
+sakai.locale.userCountry = 'SE';
+sakai.locale.userLanguage = 'sv';
+sakai.locale.userLocale = 'sv_SE';
+sakai.editor.collectionId = '/group/95736VT14-1/';
+sakai.editor.enableResourceSearch = false;</script>
+<script type="text/javascript" language="JavaScript">var CKEDITOR_BASEPATH='/library/editor/ckeditor/';
+</script>
+<script type="text/javascript" language="JavaScript" src="instructions_files/ckeditor_002.js"></script>
+<script type="text/javascript" language="JavaScript" src="instructions_files/ckeditor.js"></script>
+	
+    
+    	            
+    
+  </head>
+  <body onpageshow='event.persisted &amp;&amp; (function(){var allInstances = CKEDITOR.instances, editor, doc;for ( var i in allInstances ){	editor = allInstances[ i ];	doc = editor.document;	if ( doc )	{		doc.$.designMode = "off";		doc.$.designMode = "on";	}}})();' onload="setMainFrameHeight('Main99bdbdf7x99a7x43e3xbf19xc19f1c188386');setFocus(focus_path);">
+<!-- $Id: chef_assignments_student_view_submission.vm 125640 2013-06-11 22:13:24Z ottenhoff@longsight.com $ -->
+<!-- start: chef_assignments_student_view_submission.vm  -->
+<!-- $Id: assignment_macros.vm 94135 2011-06-27 14:25:22Z yorkadam@umich.edu $ -->
+<!-- start:  assignment_macros.vm -->
+<!-- end:  assignment_macros.vm --><script type="text/javascript" src="99bdbdf7-99a7-43e3-bf19-c19f1c188386_data/jquery.js"></script>
+<link href="99bdbdf7-99a7-43e3-bf19-c19f1c188386_data/assignment.css" type="text/css" rel="stylesheet" media="all">
+<script type="text/javascript" src="99bdbdf7-99a7-43e3-bf19-c19f1c188386_data/assignments.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    setupToggleAreas('toggleAnchor', 'toggledContent', false, 'fast');
+    $('#submissionFileCount').val(1);
+    $('#addMoreAttachmentControls').click(function(e){
+        e.preventDefault();
+        if ($('#submissionFileCount').val() < 5) {
+            var $input = $('#clonableUpload').clone().removeAttr('id').addClass('cloned').appendTo('#clonedHolder').children('input');
+            $input.val('');
+            var $count = $('#submissionFileCount').val();
+            var $nameCount = "upload"+$count;
+            $input.attr("name", $nameCount);
+            $('#submissionFileCount').val(parseInt($('#submissionFileCount').val(), 10) + 1);
+            if ($('#submissionFileCount').val() == 5) {
+                $('#addMoreAttachmentControls').hide();
+                $('#addMoreAttachmentControlsInactive').show();
+            }
+        }
+        $('.cloned a').show();
+        resizeFrame('grow');
+    });
+    
+});
+var notifyDeleteControl = function(){
+    $('#submissionFileCount').val(parseInt($('#submissionFileCount').val(), 10) - 1);
+    if ($('#submissionFileCount').val() < 5) {
+        $('#addMoreAttachmentControls').show();
+        $('#addMoreAttachmentControlsInactive').hide();
+    }
+};
+
+function submitform(id)
+{
+	var theForm = document.getElementById(id);
+	if(theForm && theForm.onsubmit)
+	{
+		theForm.onsubmit();
+	}
+	if(theForm && theForm.submit)
+	{
+		theForm.submit();
+	}
+}
+		
+</script>
+
+
+<div class="portletBody">
+																				<h3>Uppgift
+																	<span class="highlight">
+						 	- Under arbete
+							</span>
+										</h3>
+																					<p class="instruction">
+								 	Lägg till bilaga(or), välj sedan lämplig knapp nederst.
+							</p>	
+						<table class="itemSummary" summary="Uppgiftens information">
+				<tbody><tr>
+					<th>
+						Titel
+					</th>
+					<td>
+						            <span class="user_icon" title="Individuell inlämning" alt="Individuell inlämning"></span>
+    						Inlämnings uppgift 1 - En android applikation
+																	</td>
+				</tr>
+				<tr>
+					<th>
+						Sista inlämning
+					</th>
+					<td>
+						2014-07-11 17:00
+					</td>
+				</tr>
+													<tr>
+						<th>
+							Antal tillåtna återinlämningar
+						</th>
+						<td>
+							2
+						</td>
+					</tr>
+										<tr>
+						<th>
+							Tillåt återlämningar till
+						</th>
+						<td>
+							2014-09-30 17:00
+						</td>
+					</tr>
+																	<tr>
+					<th>
+						Status
+					</th>
+					<td>
+																					Under arbete
+																		</td>
+				</tr>
+																			<tr>	
+							<th>
+								Betygsskala
+							</th>
+							<td>
+								G/U
+															</td>
+						</tr>
+																						<tr>
+						<th>
+								Ändrad av lärare
+						</th>
+						<td>
+							2014-06-05 14:37
+						</td>
+					</tr>
+															</tbody></table>
+		<h4>
+			Instruktioner
+		</h4>
+		
+					<div class="textPanel">I denna obligatoriska uppgift så ska ni göra
+ en första inledande androidapplikation för att bekanta er med 
+utvecklingsmiljön och API:erna<br>
+<p>Applikationen ska vara en enkel variant av spelet Greed för en 
+spelare (eg spelaren ska kunna utmana sig själv att komma upp i den 
+poäng som krävs för att vinna i så få omgångar som möjligt).</p>
+<h2>Beskrivning av spelet Greed</h2>
+<p>Greed är ett spel som i normalfallet spelas mellan två eller fler 
+spelare. Spelet spelas med sex tärningar som man rullar i en 
+tärningskopp. Då en spelare nått ett visst antal poäng (vanligtvis 
+10000) så har denne vunnit.</p>
+<p>Spelet spelas i omgångar. I varje omgång så kan spelaren registrera 
+poäng som ackumuleras mellan omgångarna. För att kunna registrera poäng 
+måste man nå en viss gräns (vanligtvis 300) på det första slaget i ens 
+tur. Når man inte upp till detta så går man vidare till nästa 
+spelare/omgång.</p>
+<p>Om en spelare vid ett slag (efter det första) inte får några poäng så
+ är den omgången över och spelaren mister alla ev tidigare insamlade 
+poäng från omgången.</p>
+<p>Om spelaren får ihop en högre poängsumma än gränsen på slaget i sin tur så har man två valmöjligheter:</p>
+<p>1.<span class="Apple-tab-span" style="white-space:pre">	</span>att stanna och registrera sina poäng eller</p>
+<p>2.<span class="Apple-tab-span" style="white-space:pre">	</span>slå om tärningarna som inte använts till poängsättning och försöka få fler poäng.</p>
+<p>För att fortsätta så rullar spelaren om de tärningar som han/hon inte
+ redan använt för att få poäng under omgången. Om inga tärningar 
+kvarstår som inte givit poäng så får spelaren slå om alla tärningar (för
+ att på så sätt kunna få fler poäng i omgången). Spelaren bestämmer 
+själv vilka tärningar som ska sparas och därmed ge poäng efter varje 
+kast. Tärningar som i ett tidigare slag använts för poängsättning får 
+senare under omgången inte användas till att ge några andra poäng än de 
+gav då de sparades.</p>
+<p>En spelare kan fortsätta så länge som minst en tärning ger poäng i 
+varje kast. Om ett kast inte skulle ge några poäng så förlorar man alla 
+dittills insamlade poäng och får starta en ny omgång. Poäng från 
+tidigare omgångar påverkas inte.</p>
+<p>Efter att ha fått poäng i ett slag kan spelaren välja att registrera 
+dessa poäng. De läggs då till de som denne har fått vid tidigare 
+omgångar och en ny omgång påbörjas.&nbsp;<br>
+<br>
+Poängsättning av tärningar:</p>
+<p>•<span class="Apple-tab-span" style="white-space:pre">	</span>Tretal (tre lika vid samma tärningsslag) ger 100 gånger värdet på tärningen om värdet inte är 1 då man får 1000 poäng istället.</p>
+<p>•<span class="Apple-tab-span" style="white-space:pre">	</span>Alla&nbsp;&nbsp;1:or och 5:or ger 100 respektive &nbsp;50 poäng var (om de inte ingår i tretal eller stege).</p>
+<p>•<span class="Apple-tab-span" style="white-space:pre">	</span>En stege &nbsp;(1, 2, 3, 4, 5, 6) ger 1000 poäng.<br>
+&nbsp;<br>
+Då användaren nått upp till gränsen för att vinna ska en ny aktivitet 
+presenteras som bla visar hur många omgångar som spelaren behövde.</p>
+Gränssnittet &nbsp;skulle kunna tänkas se ut som i exemplen nedan (ni får givetvis göra ett snyggare gränssnitt).&nbsp;&nbsp;<br>
+<p><img alt="Användargränssnittsbild" src="99bdbdf7-99a7-43e3-bf19-c19f1c188386_data/greed1.jpg" height="329" width="200">&nbsp;<img alt="" src="99bdbdf7-99a7-43e3-bf19-c19f1c188386_data/greed2.jpg" height="329" width="199"><br>
+Tänk på vad som händer om telefonen roteras eller användaren trycker på 
+back-knappen. Er applikation bör bete sig som en van Android användare 
+förväntar sig då dessa händelser inträffar.</p>
+<h2>Exempel på spelomgångar</h2>
+<p>Kalle slår tärningarna 1 2 3 3 2 1 i sin första omgång<br>
+Omgången tar slut direkt då Kalle inte nådde upp till gränsen på 300 poäng för första omgången.<br>
+<br>
+Nästa gång det blir Kalles tur så slår han 1 2 1 2 1 3 i sitt första 
+slag. Detta ger 1000 poäng (för tretal i ettor). Kalle väljer att chansa
+ och slår om de två tvåorna och trean. På sitt andra slag i omgången så 
+får han 2 2 5 vilket ger 50 poäng. Kalle väljer att stanna och 
+registrera sina 1050 poäng och omgången är därmed över.<br>
+<br>
+Vid Kalles tredje omgång så har han tur och slår 1 2 3 4 5 6 på sitt 
+första slag. Alltså en stege som ger 1000 poäng. Kalle har därmed också 
+använt alla sina tärningar till att registrera poäng och får nu om han 
+vill slå om alla tärningar för att öka på poängen. Detta tycker Kalle är
+ en bra ide och slår i sitt andra slag 1 2 3 4 2 1. Detta ger kalle 
+ytterligare 200 poäng för de två ettorna. Han tycker nu att han fått nog
+ mkt för denna omgång och registrerar sina 1200 poäng för omgången.<br>
+<br>
+Kalles fjärde omgång börjar bra. Han slår denna gång 1 1 1 2 5 5 (1100 
+poäng). Kalle känner sig modig och väljer att slå om tvåan i hopp om att
+ få en etta eller femma till (vilket skulle leda till att han får slå om
+ alla tärningar igen som i omgången innan). Denna gång har dock inte 
+Kalle sådan tur utan slår en 3a på sitt andra slag. Då han inte i detta 
+slag lyckades generera några poäng så mister han de poäng som han 
+hittils fått ihop i omgången och omgången är slut.<br>
+&nbsp;</p>
+<h2>Inlämning och Regler</h2>
+<p><br>
+Uppgiften ska lösas enskilt. En zip-fil med det färdiga projektet 
+(skapat i Eclipse) inklusive väl kommenterad källkod ska lämnas in via 
+cambro. Er kod ska följa god objektorienterad programmeringsmetodik. 
+Tänk alltså på att dela upp era program i klasser med lagom stora 
+ansvar. Lösningar där hela programmet är gjort i en Activity/Frame-klass
+ kommer tex inte att få godkänt.<br>
+&nbsp;</p>
+<h2>Bildfiler som ni kan använda om ni vill</h2>
+<p>Om ni vill så kan ni använda er av följande bilder på tärningar i ert program: <a href="http://www8.cs.umu.se/kurser/5DV134/ST13/dice.zip" target="_blank">dice.zip</a><br>
+&nbsp;</p></div>
+																									        	<!-- $Id: chef_assignments_tags_list.vm 94881 2011-07-08 14:22:21Z ottenhoff@longsight.com $ -->
+<!-- start: chef_assignments_tags_list.vm  -->
+<script type="text/javascript" language="JavaScript">
+
+function saveChanges(formName, textAreaId) {
+	var _textArea = document.getElementById(textAreaId);
+	if (_textArea != null) {
+		if (typeof FCKeditorAPI != "undefined") {
+			var editor = FCKeditorAPI.GetInstance(textAreaId);
+			document[formName].savedText.value = editor.GetXHTML(false);
+		}
+	}
+}
+
+iframeId = 'Main99bdbdf7x99a7x43e3xbf19xc19f1c188386';
+
+</script>
+<form name="form" action="https://www.cambro.umu.se/portal/tool/99bdbdf7-99a7-43e3-bf19-c19f1c188386?panel=Main" method="post">
+	<input name="sakai_action" value="" type="hidden">
+	<input name="providerId" value="" type="hidden">
+	<input name="criteria" value="" type="hidden">
+	<input name="savedText" value="" type="hidden">
+						<input name="sakai_csrf_token" value="35a2856804bf017b5d537d82a744a1d9db6d95c409a0d98eb1b043e2a0daecbd" type="hidden">
+</form>
+<!-- end: chef_assignments_tags_list.vm  -->
+				<hr class="itemSeparator">
+						<h3>Inlämning</h3> 
+		
+
+
+					<form name="addSubmissionForm" id="addSubmissionForm" action="https://www.cambro.umu.se/portal/tool/99bdbdf7-99a7-43e3-bf19-c19f1c188386?panel=Main" method="post" onsubmit="return true;" enctype="multipart/form-data">
+		<input name="eventSubmit_doRead_add_submission_form" value="x" type="hidden">
+		<input name="option" id="option" value="cancel" type="hidden">
+		<input name="currentAttachment" value="" type="hidden">
+		<input name="assignmentId" value="/assignment/a/95736VT14-1/6ba20559-d78f-4eec-9fce-735ff1333072" type="hidden">
+											
+
+
+
+															<p class="instruction">
+													Denna uppgift tillåter inlämning enbart genom bifogade filer.
+											</p>
+								<div class="highlightPanel" style="background:#ffe">
+					<h3 style="margin-top:0;margin-bottom:.5em">
+						Bifogade filer
+					</h3>	
+																					<p class="instruction">Inga bifogade filer ännu</p>
+																<div class="highlightPanel specialLink" style="margin:0;padding-bottom:.5em;background:#fff">
+																																										<input name="submissionFileCount" id="submissionFileCount" value="1" type="hidden">
+									<table class="listHier  centerLines" style="width:auto;margin:0" border="0" cellpadding="0" cellspacing="0">
+										<tbody><tr>
+											<td>
+												<span>Välj en fil från datorn (totalt 5)</span>
+											</td>
+											<td>
+												<div id="clonableUpload"> 
+													<input name="upload" class="upload" id="clonableUpload" onchange="javascript:showNotif('submitnotifxxx','post','addSubmissionForm');document.getElementById('addSubmissionForm').action='https://www.cambro.umu.se/portal/tool/99bdbdf7-99a7-43e3-bf19-c19f1c188386?panel=Main&amp;sakai_action=doAttachUpload';submitform('addSubmissionForm');" "="" type="file"> 
+													<span id="submitnotifxxx" class="messageProgress" style="visibility:hidden">ladda upp fil(er)</span>
+												</div>
+											</td>
+											<td>
+												<span class="navIntraToolLink">
+													<input class="disableme enabled" value="eller välj filer från My Workspace / Min arbetsyta eller annan sajt" name="attach" id="attach" accesskey="a" onclick="document.addSubmissionForm.onsubmit();document.addSubmissionForm.option.value='attach'; document.addSubmissionForm.submit(); return false;" type="button">
+												</span>	
+											</td>
+										</tr>	
+										<tr>
+											<td></td>
+											<td id="clonedHolder"></td>
+											<td></td>
+											<td></td>										
+											</tr>
+									</tbody></table>	
+									
+																					</div>
+																							</div>
+				
+																														<div class="act messageInformation">
+							<input class="active" name="post" accesskey="s" id="post" value="Lämna in" onclick="document.addSubmissionForm.onsubmit();showNotif('submitnotif','post','addSubmissionForm'); document.addSubmissionForm.option.value='post'; document.addSubmissionForm.submit(); return false;" type="button">
+																	<input class="disableme" name="preview" accesskey="v" id="preview" value="Förhandsgranska" onclick="document.addSubmissionForm.onsubmit();showNotif('submitnotif','preview','addSubmissionForm');document.addSubmissionForm.option.value='preview'; document.addSubmissionForm.submit(); return false;" type="button">
+							<input class="disableme" name="save" accesskey="d" id="save" value="Spara utkast" onclick="document.addSubmissionForm.onsubmit();showNotif('submitnotif','save','addSubmissionForm');document.addSubmissionForm.option.value='save'; document.addSubmissionForm.submit(); return false;" type="button">
+														<input class="disableme" name="cancel" accesskey="x" id="cancel" value="Avbryt" onclick="document.addSubmissionForm.onsubmit();document.addSubmissionForm.option.value='cancel'; document.addSubmissionForm.submit(); return false;" type="button">
+							<span class="messageInformation">Glöm inte att spara eller skicka in</span>
+									<span id="submitnotif" style="visibility:hidden">Bearbetar......</span>
+			</div>
+				<input name="sakai_csrf_token" value="35a2856804bf017b5d537d82a744a1d9db6d95c409a0d98eb1b043e2a0daecbd" type="hidden">
+	</form>
+	</div>
+<!-- end: chef_assignments_student_view_submission.vm  -->
+</body></html>
