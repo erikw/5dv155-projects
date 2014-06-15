@@ -4,7 +4,6 @@ gen/
 libs/
 
 .classpath
-.project
 local.properties
 tags
 workbench.xmi
