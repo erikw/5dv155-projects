@@ -7,8 +7,6 @@ import java.util.Set;
 
 import android.test.AndroidTestCase;
 
-import junit.framework.Assert;
-
 import se.umu.androidcourse.erwe0033.greed.*;
 
 public class GreedGameTest extends AndroidTestCase {
@@ -29,14 +27,14 @@ public class GreedGameTest extends AndroidTestCase {
     }
 
     public void testNewGame() {
-    	Assert.assertEquals("Total score not initially correct", 0, game.getRoundScore());
-    	Assert.assertNull("No turn score should be available yet.", game.getTurnScore());
+    	assertEquals("Total score not initially correct", 0, game.getRoundScore());
+    	assertNull("No turn score should be available yet.", game.getTurnScore());
     	game.newRound();
-    	Assert.assertEquals("Total score not rested after new round", 0, game.getRoundScore());
+    	assertEquals("Total score not rested after new round", 0, game.getRoundScore());
     }
 
 	private void dieInitTest(Die die) {
-		Assert.assertEquals("Die initial value correct.", 0, die.getValue());
+		assertEquals("Die initial value correct.", 0, die.getValue());
 	}
 
     public void testNewDice() {
@@ -46,7 +44,7 @@ public class GreedGameTest extends AndroidTestCase {
 
     public void testInitialDice() {
     	Die[] dice = game.getAllDice();
-    	Assert.assertEquals("Not correct number of dice.", 6, dice.length);
+    	assertEquals("Not correct number of dice.", 6, dice.length);
     	for (Die die : dice) {
     		dieInitTest(die);
     	}
@@ -87,10 +85,10 @@ public class GreedGameTest extends AndroidTestCase {
 		Die die = new Die(new RandomMock(sequence));
 		for (Integer nbr : sequence) {
 			int rollValue = die.roll();
-			Assert.assertEquals("Roll value wrong.", nbr.intValue(), rollValue);
+			assertEquals("Roll value wrong.", nbr.intValue(), rollValue);
 		}
 		int rollValue = die.roll();
-		Assert.assertEquals("Roll value wrong.", sequence[0], rollValue);
+		assertEquals("Roll value wrong.", sequence[0], rollValue);
 	}
 
 	public void testTurnScoreZero() {
@@ -99,12 +97,21 @@ public class GreedGameTest extends AndroidTestCase {
 			die.setValue(2);
 			selectedDice.add(die);
 		}
+		diceMock[0].setValue(1);
 		game.setDice(diceMock);
 		TurnScore turnScore = game.scoreDice(selectedDice);
+		assertEquals("All dices should score zero", 0, turnScore.getTotalScore());
 
-		assertEquals("Should not have points for only twos in round score.", 0, turnScore.getTotalScore());
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("All dice should be zero scores.", diceMock.length, zeroPointDice.size());
+		for (Die die : diceMock) {
+			if (!zeroPointDice.contains(die)) {
+				fail("Missing MockDie in zero score dice.");
+			}
+		}
+
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
-		assertEquals("No score shoud be given for only twos", 0, scores.size()); 
+		assertEquals("No score shoud have been given.", 0, scores.size());
 	}
 
 	public void testTurnScoreLadder() {
@@ -123,7 +130,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("No dice should score zero for ladder", 0, zeroPointDice.size());
 
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
-		assertEquals("Should only have one score combo for ladder.", 1, scores.size()); 
+		assertEquals("Should only have one score combo for ladder.", 1, scores.size());
 		assertEquals("The only score combo should be ladder.", GreedGame.POINTS_LADDER, scores.get(0).getScore());
 	}
 
@@ -141,7 +148,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("No dice should score zero for triplet-test", 0, zeroPointDice.size());
 
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
-		assertEquals("Should only have one score combo for one triplet.", 1, scores.size()); 
+		assertEquals("Should only have one score combo for one triplet.", 1, scores.size());
 		assertEquals("Should have " + dieValue + " * tiplet score.", dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(0).getScore());
 	}
 
@@ -159,15 +166,53 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("No dice should score zero for triplet-test", 0, zeroPointDice.size());
 
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
-		assertEquals("Should only have one score combo for one triplet.", 1, scores.size()); 
+		assertEquals("Should only have one score combo for one triplet.", 1, scores.size());
 		assertEquals("Should have triplet of ones score." , GreedGame.POINTS_TRIPLET_OF_ONES, scores.get(0).getScore());
+	}
+
+	public void testTwoTriplets() {
+		int dieValue1 = 1;
+		int dieValue2 = 3;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (int i = 0; i < 3; ++i) {
+			diceMock[i].setValue(dieValue1);
+			selectedDice.add(diceMock[i]);
+		}
+		for (int i = 3; i < 6; ++i) {
+			diceMock[i].setValue(dieValue2);
+			selectedDice.add(diceMock[i]);
+		}
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("No dice should score zero for triplet-test", 0, zeroPointDice.size());
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should only have two scores for two triplets.", 2, scores.size());
+		assertEquals("Should have score of triplets of 3 and triplets of one" , (GreedGame.POINTS_TRIPLET_OF_ONES + dieValue2 * GreedGame.POINTS_TRIPLET_FACTOR), turnScore.getTotalScore());
+	}
+
+	public void testTwoTripletsOfSameValue() {
+		int dieValue = 2;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (int i = 0; i < diceMock.length; ++i) {
+			diceMock[i].setValue(dieValue);
+			selectedDice.add(diceMock[i]);
+		}
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should only have two scores for two triplets.", 2, scores.size());
+		assertEquals("Should have score of tripletse" , dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(0).getScore());
+		assertEquals("Should have score of tripletse" , dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(1).getScore());
 	}
 }
 
 
-// TODO test 2 triplets at the same time 
 // TODO test 2 triplets at the same time of same value
 // TODO test no points at all
-// TODO test triplet of ones
 // TODO test ladder followed by triplet/single
 // TODO reset used dice if score using all dice
+// TODO test what happens if selecteDice is emtpy

@@ -73,9 +73,11 @@ public class GreedGame {
 			scoreTriplets(dice, score);
 			scoreSingles(dice, score);
 		}
+		score.addZeroScoreDice(dice);
 		turnScores.push(score);
 		 return score;
 	}
+
 	private void checkForReuse(Set<Die> dice) {
 		for (Die die : dice) {
 			if (!availableDice.contains(die)) {
@@ -84,46 +86,63 @@ public class GreedGame {
 		}
 	}
 
-	private boolean scoreLadder(Set<Die> dice, TurnScore score) {
-		if (dice.size() != allDice.length) {
+	private boolean scoreLadder(Set<Die> selectedDice, TurnScore score) {
+		if (selectedDice.size() != allDice.length) {
 			return false;
 		}
 		int sum = 0;
-		for (Die die : dice) {
+		for (Die die : selectedDice) {
 			sum += die.getValue();
 		}
 		if (sum == GreedGame.LADDER_SUM) {
-			ScoreCombination combo = new ScoreCombination(GreedGame.POINTS_LADDER, dice);
+			ScoreCombination combo = new ScoreCombination(GreedGame.POINTS_LADDER, selectedDice);
 			score.addScore(combo);
+			selectedDice.clear();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	private void scoreTriplets(Set<Die> dice, TurnScore score) {
+	private void scoreTriplets(Set<Die> selectedDice, TurnScore score) {
 		Map<Integer, LinkedList<Die>> triplets = new HashMap<Integer, LinkedList<Die> >();
-		for (Die die : dice) {
+		for (Die die : selectedDice) {
 			if (!triplets.containsKey(die.getValue())) {
 				triplets.put(new Integer(die.getValue()), new LinkedList<Die>());
 			}
 			triplets.get(die.getValue()).add(die);
 		}
 		for (Integer dieValue : triplets.keySet()) {
-			if (triplets.get(dieValue).size() == 6) {
-				// TODO
-			} else if (triplets.get(dieValue).size() == 3) {
-				int points;
-				if (dieValue == 1)	{
-					points = GreedGame.POINTS_TRIPLET_OF_ONES;
-				} else {
-					points = dieValue * GreedGame.POINTS_TRIPLET_FACTOR;
+			LinkedList<Die> triplet = triplets.get(dieValue);
+			if (triplet.size() == 6) {
+				Set<Die> t0 = new HashSet<Die>();
+				Set<Die> t1 = new HashSet<Die>();
+				for (int i = 0; i < 3; ++i) {
+					t0.add(triplet.get(i));
 				}
-				score.addScore(new ScoreCombination(points, new HashSet<Die>(triplets.get(dieValue))));
+				for (int i = 3; i < 6; ++i) {
+					t1.add(triplet.get(i));
+				}
+				registerTripletScore(dieValue, selectedDice, t0, score);
+				registerTripletScore(dieValue, selectedDice, t1, score);
+			} else if (triplet.size() == 3) {
+				registerTripletScore(dieValue, selectedDice, new HashSet<Die>(triplet), score);
 			}
 		}
 	}
-	private void scoreSingles(Set<Die> dice, TurnScore score) {
+
+	private void registerTripletScore(int dieValue, Set<Die> selectedDice, Set<Die> triplet, TurnScore score) {
+		int points;
+		if (dieValue == 1)	{
+			points = GreedGame.POINTS_TRIPLET_OF_ONES;
+		} else {
+			points = dieValue * GreedGame.POINTS_TRIPLET_FACTOR;
+		}
+		score.addScore(new ScoreCombination(points, new HashSet<Die>(triplet)));
+		availableDice.removeAll(triplet);
+		selectedDice.removeAll(triplet);
+	}
+	private void scoreSingles(Set<Die> selectedDice, TurnScore score) {
 
 	}
 

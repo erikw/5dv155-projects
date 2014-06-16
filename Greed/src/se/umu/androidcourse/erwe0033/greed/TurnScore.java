@@ -33,4 +33,8 @@ public class TurnScore {
 		combos.add(combo);
 		totalScore += combo.getScore();
 	}
+
+	public void addZeroScoreDice(Set<Die> zeroDice) {
+		this.zeroDice = new HashSet<Die>(zeroDice);
+	}
 }
