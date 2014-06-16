@@ -21,7 +21,7 @@ public class Die {
 	}
 
 	public int roll() {
-		return 0;
+		return randGen.nextInt(6) + 1;
 	}
 
 }

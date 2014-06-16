@@ -14,8 +14,12 @@ public class GreedGameTest extends AndroidTestCase {
 
     public void testNewGame() {
     	GreedGame game = new GreedGame();
-    	Assert.assertEquals("Total score not initially correct", 0, game.getTotalScore());
-    	Assert.assertEquals("Round score not initially correct.", 0, game.getRoundScore());
+    	Assert.assertEquals("Total score not initially correct", 0, game.getRoundScore());
+    	Assert.assertEquals("Round score not initially correct.", 0, game.getTurnScore());
+    	game.newRound();
+    	Assert.assertEquals("Total score not rested after new round", 0, game.getRoundScore());
+    	game.nextTurn();
+    	Assert.assertEquals("Turn score not rested with new turn", 0, game.getTurnScore());
     }
 
 	private void dieInitTest(Die die) {
@@ -29,7 +33,7 @@ public class GreedGameTest extends AndroidTestCase {
 
     public void testInitialDice() {
     	GreedGame game = new GreedGame();
-    	Set<Die> dice = game.getDice();
+    	Set<Die> dice = game.getAllDice();
     	Assert.assertEquals("Not correct number of dice.", 6, dice.size());
     	for (Die die : dice) {
     		dieInitTest(die);
@@ -51,7 +55,7 @@ public class GreedGameTest extends AndroidTestCase {
 		public int nextInt(int n) {
 			int next = sequence[index];
 			index = ++index % sequence.length;
-			return next;
+			return next - 1; // Die.roll() will add one to put number in range.
 		}
 	}
 
