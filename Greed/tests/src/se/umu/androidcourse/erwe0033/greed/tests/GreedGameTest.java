@@ -269,7 +269,6 @@ public class GreedGameTest extends AndroidTestCase {
 }
 
 
-// TODO test singles
 // TODO test triplet + single socres: 1,1,1,5,5,6
 // TODO test ladder followed by triplet/single
 // TODO reset used dice if score using all dice e.g. two triplets, ladder
