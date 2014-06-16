@@ -1,5 +1,7 @@
 package se.umu.androidcourse.erwe0033.greed.tests;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -7,13 +9,26 @@ import android.test.AndroidTestCase;
 
 import junit.framework.Assert;
 
-import se.umu.androidcourse.erwe0033.greed.GreedGame;
-import se.umu.androidcourse.erwe0033.greed.Die;
+import se.umu.androidcourse.erwe0033.greed.*;
 
 public class GreedGameTest extends AndroidTestCase {
+	private GreedGame game;
+	private DieMock[] diceMock;
+
+    public void setUp() {
+    	game = new GreedGame();
+		diceMock = new DieMock[6];
+		for (int i = 0; i < diceMock.length; ++i) {
+			diceMock[i] = new DieMock(1);
+		}
+    }
+
+    public void tearDown() {
+		diceMock = null;
+		game = null;
+    }
 
     public void testNewGame() {
-    	GreedGame game = new GreedGame();
     	Assert.assertEquals("Total score not initially correct", 0, game.getRoundScore());
     	Assert.assertEquals("Round score not initially correct.", 0, game.getTurnScore());
     	game.newRound();
@@ -32,9 +47,8 @@ public class GreedGameTest extends AndroidTestCase {
     }
 
     public void testInitialDice() {
-    	GreedGame game = new GreedGame();
-    	Set<Die> dice = game.getAllDice();
-    	Assert.assertEquals("Not correct number of dice.", 6, dice.size());
+    	Die[] dice = game.getAllDice();
+    	Assert.assertEquals("Not correct number of dice.", 6, dice.length);
     	for (Die die : dice) {
     		dieInitTest(die);
     	}
@@ -59,6 +73,17 @@ public class GreedGameTest extends AndroidTestCase {
 		}
 	}
 
+	public class DieMock extends Die {
+		public DieMock(int value) {
+			super();
+			this.value = value;
+		}
+
+		public void setValue(int value) {
+			this.value = value;
+		}
+	}
+
 	public void testDieRoll() {
 		int[] sequence = new int[] {1,3,5,6,2,3};
 		Die die = new Die(new RandomMock(sequence));
@@ -68,5 +93,20 @@ public class GreedGameTest extends AndroidTestCase {
 		}
 		int rollValue = die.roll();
 		Assert.assertEquals("Roll value wrong.", sequence[0], rollValue);
+	}
+
+	public void testZeroRoundScorePeek() {
+		for (DieMock die : diceMock) {
+			die.setValue(2);
+		}
+		game.setDice(diceMock);
+		RoundScore possibleScore = game.calcMaxRoundScore();
+		assertEquals("Should not have points for only twos in round score.", 0, possibleScore.getTotalScore());
+
+		Set<Die> zeroScoreDice = possibleScore.getZeroScoreDice();
+		assertEquals("All twos should yield 0 points.", diceMock.length, zeroScoreDice.size());
+
+		List<ScoreCombination> scores = possibleScore.getScoreCombos();
+		assertEquals("No score shoud be given for only twos", 0, scores.size()); 
 	}
 }

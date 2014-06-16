@@ -4,8 +4,9 @@ import java.util.Random;
 
 public class Die {
 
-	private int value;
+	protected int value;
 	private Random randGen;
+
 
 	public Die(Random randGen) {
 		this.value = 0;

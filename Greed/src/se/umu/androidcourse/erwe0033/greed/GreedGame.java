@@ -1,32 +1,47 @@
 package se.umu.androidcourse.erwe0033.greed;
 
-import java.util.Set;
-import java.util.HashSet;
-
 public class GreedGame {
 
-	private int totalScore;
 	private int roundScore;
-	private Set<Die> dice;
+	private int turnScore;
+	private Die[] dice;
+
 
 	public GreedGame() {
-		totalScore = 0;
-		roundScore = 0;
-		dice = new HashSet<Die>();
-		for (int i = 0; i < 6; ++i) {
-			dice.add(new Die());
+		newRound();
+		nextTurn();
+		dice = new Die[6];
+		for (int i = 0; i < dice.length; ++i) {
+			dice[i] = new Die();
 		}
 	}
 
-	public int getTotalScore() {
-		return totalScore;
+	public void setDice(Die[] dice) {
+		this.dice = dice;
 	}
 
 	public int getRoundScore() {
 		return roundScore;
 	}
 
-	public Set<Die> getDice() {
+	public int getTurnScore() {
+		return turnScore;
+	}
+
+	public Die[] getAllDice() {
 		return dice;
+	}
+
+	public void newRound() {
+		roundScore = 0;
+	}
+
+	public void nextTurn() { // TODO select which dices to use
+		roundScore += turnScore;
+		turnScore = 0;
+	}
+
+	public RoundScore calcMaxRoundScore() {
+		return null;
 	}
 }
