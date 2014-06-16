@@ -1,7 +1,11 @@
 package se.umu.androidcourse.erwe0033.greed;
 
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -15,6 +19,7 @@ public class GreedGame {
 	private static final int LADDER_SUM = 1 + 2 + 3 + 4 + 5 + 6;
 
 	public static final int POINTS_TRIPLET_FACTOR = 100;
+	public static final int POINTS_TRIPLET_OF_ONES = 1000;
 	public static final int POINTS_SINGLES_ONES = 100;
 	public static final int POINTS_SINGLES_FIVES = 50;
 	public static final int POINTS_LADDER = 1000;
@@ -97,7 +102,26 @@ public class GreedGame {
 	}
 
 	private void scoreTriplets(Set<Die> dice, TurnScore score) {
-
+		Map<Integer, LinkedList<Die>> triplets = new HashMap<Integer, LinkedList<Die> >();
+		for (Die die : dice) {
+			if (!triplets.containsKey(die.getValue())) {
+				triplets.put(new Integer(die.getValue()), new LinkedList<Die>());
+			}
+			triplets.get(die.getValue()).add(die);
+		}
+		for (Integer dieValue : triplets.keySet()) {
+			if (triplets.get(dieValue).size() == 6) {
+				// TODO
+			} else if (triplets.get(dieValue).size() == 3) {
+				int points;
+				if (dieValue == 1)	{
+					points = GreedGame.POINTS_TRIPLET_OF_ONES;
+				} else {
+					points = dieValue * GreedGame.POINTS_TRIPLET_FACTOR;
+				}
+				score.addScore(new ScoreCombination(points, new HashSet<Die>(triplets.get(dieValue))));
+			}
+		}
 	}
 	private void scoreSingles(Set<Die> dice, TurnScore score) {
 

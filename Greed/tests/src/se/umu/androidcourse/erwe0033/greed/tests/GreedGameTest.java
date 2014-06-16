@@ -126,7 +126,48 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should only have one score combo for ladder.", 1, scores.size()); 
 		assertEquals("The only score combo should be ladder.", GreedGame.POINTS_LADDER, scores.get(0).getScore());
 	}
+
+	public void testTriplets() {
+		int dieValue = 5;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (int i = 0; i < 3; ++i) {
+			diceMock[i].setValue(dieValue);
+			selectedDice.add(diceMock[i]);
+		}
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("No dice should score zero for triplet-test", 0, zeroPointDice.size());
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should only have one score combo for one triplet.", 1, scores.size()); 
+		assertEquals("Should have " + dieValue + " * tiplet score.", dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(0).getScore());
+	}
+
+	public void testTripletsOfOne() {
+		int dieValue = 1;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (int i = 0; i < 3; ++i) {
+			diceMock[i].setValue(dieValue);
+			selectedDice.add(diceMock[i]);
+		}
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("No dice should score zero for triplet-test", 0, zeroPointDice.size());
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should only have one score combo for one triplet.", 1, scores.size()); 
+		assertEquals("Should have triplet of ones score." , GreedGame.POINTS_TRIPLET_OF_ONES, scores.get(0).getScore());
+	}
 }
 
 
+// TODO test 2 triplets at the same time 
+// TODO test 2 triplets at the same time of same value
+// TODO test no points at all
+// TODO test triplet of ones
+// TODO test ladder followed by triplet/single
 // TODO reset used dice if score using all dice
