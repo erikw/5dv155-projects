@@ -32,6 +32,10 @@ public class GreedGame {
 
 	public void setDice(Die[] dice) {
 		this.dice = dice;
+		availableDice.clear();
+		for (Die die : dice) {
+			availableDice.add(die);
+		}
 	}
 
 	public int getRoundScore() {
@@ -54,24 +58,34 @@ public class GreedGame {
 		roundScore = 0;
 	}
 
-	public TurnScore scoreDice() {
+	public TurnScore scoreDice(Set<Die> selecteDice) {
+		checkForReuse(selecteDice);
+		Set<Die> dice = new HashSet<Die>(selecteDice); // Don't modify original.
 		TurnScore score = new TurnScore();
-		if (availableDice.size() == dice.length && !scoreLadder(score)) { // Ladder can only score with all dice.
-			scoreTriplets(score);
-			scoreSingles(score);
+		if (!scoreLadder(dice, score)) {
+			scoreTriplets(dice, score);
+			scoreSingles(dice, score);
 		}
 		turnScores.push(score);
 		 return score;
 	}
+	private void checkForReuse(Set<Die> dice) {
+		for (Die die : dice) {
+			if (!availableDice.contains(die)) {
+				throw new RuntimeException("Some dice alreay used for scoring.");
+			}
+		}
+	}
 
-	private boolean scoreLadder(TurnScore score) {
+	private boolean scoreLadder(Set<Die> dice, TurnScore score) {
+		//availableDice.size() == dice.length && 
 		return false;
 	}
 
-	private void scoreTriplets(TurnScore score) {
+	private void scoreTriplets(Set<Die> dice, TurnScore score) {
 
 	}
-	private void scoreSingles(TurnScore score) {
+	private void scoreSingles(Set<Die> dice, TurnScore score) {
 
 	}
 

@@ -94,11 +94,13 @@ public class GreedGameTest extends AndroidTestCase {
 	}
 
 	public void testTurnScoreZero() {
+		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
 			die.setValue(2);
+			selectedDice.add(die);
 		}
 		game.setDice(diceMock);
-		TurnScore turnScore = game.scoreDice();
+		TurnScore turnScore = game.scoreDice(selectedDice);
 
 		assertEquals("Should not have points for only twos in round score.", 0, turnScore.getTotalScore());
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
@@ -107,13 +109,19 @@ public class GreedGameTest extends AndroidTestCase {
 
 	public void testTurnScoreLadder() {
 		int dieValue = 1;
+		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
 			die.setValue(dieValue++);
+			selectedDice.add(die);
 		}
 		game.setDice(diceMock);
-		TurnScore turnScore = game.scoreDice();
+		TurnScore turnScore = game.scoreDice(selectedDice);
 
 		assertEquals("Should score ladder", GreedGame.POINTS_LADDER, turnScore.getTotalScore());
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("No dice should score zero for ladder", 0, zeroPointDice.size());
+
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
 		assertEquals("Should only have one score combo for ladder.", 1, scores.size()); 
 		assertEquals("The only score combo should be ladder.", GreedGame.POINTS_LADDER, scores.get(0).getScore());
