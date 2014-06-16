@@ -91,6 +91,20 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Roll value wrong.", sequence[0], rollValue);
 	}
 
+	public void testScoreNothing() {
+		Set<Die> selectedDice = new HashSet<Die>();
+		game.setDice(diceMock);
+
+		TurnScore turnScore = game.scoreDice(selectedDice);
+		assertEquals("No dices selected, should score zero.", 0, turnScore.getTotalScore());
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("No dice should have been zero scored.", 0, zeroPointDice.size());
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("No score shoud have been given.", 0, scores.size());
+	}
+
 	public void testTurnScoreZero() {
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
@@ -208,11 +222,10 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have score of tripletse" , dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(0).getScore());
 		assertEquals("Should have score of tripletse" , dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(1).getScore());
 	}
+
 }
 
 
-// TODO test 2 triplets at the same time of same value
-// TODO test no points at all
+// TODO test what happens if selecteDice is emtpy
 // TODO test ladder followed by triplet/single
 // TODO reset used dice if score using all dice
-// TODO test what happens if selecteDice is emtpy
