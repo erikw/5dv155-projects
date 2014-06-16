@@ -1,25 +1,20 @@
 package se.umu.androidcourse.erwe0033.greed;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-public class RoundScore {
+public class TurnScore {
 
 	private int totalScore;
 
-	public RoundScore() {
+	public TurnScore() {
 	}
 
 	public int getTotalScore() {
 		return totalScore;
 	}
 
-	public Set<Die> getZeroScoreDice() {
-		return null;
-	}
-
 	public List<ScoreCombination> getScoreCombos() {
-		return null;
+		return new LinkedList<ScoreCombination>();
 	}
-
 }

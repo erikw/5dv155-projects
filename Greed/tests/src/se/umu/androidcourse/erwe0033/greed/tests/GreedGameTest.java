@@ -30,11 +30,9 @@ public class GreedGameTest extends AndroidTestCase {
 
     public void testNewGame() {
     	Assert.assertEquals("Total score not initially correct", 0, game.getRoundScore());
-    	Assert.assertEquals("Round score not initially correct.", 0, game.getTurnScore());
+    	Assert.assertNull("No turn score should be available yet.", game.getTurnScore());
     	game.newRound();
     	Assert.assertEquals("Total score not rested after new round", 0, game.getRoundScore());
-    	game.nextTurn();
-    	Assert.assertEquals("Turn score not rested with new turn", 0, game.getTurnScore());
     }
 
 	private void dieInitTest(Die die) {
@@ -100,13 +98,12 @@ public class GreedGameTest extends AndroidTestCase {
 			die.setValue(2);
 		}
 		game.setDice(diceMock);
-		RoundScore possibleScore = game.calcMaxRoundScore();
-		assertEquals("Should not have points for only twos in round score.", 0, possibleScore.getTotalScore());
-
-		Set<Die> zeroScoreDice = possibleScore.getZeroScoreDice();
-		assertEquals("All twos should yield 0 points.", diceMock.length, zeroScoreDice.size());
-
-		List<ScoreCombination> scores = possibleScore.getScoreCombos();
+		TurnScore turnScore = game.scoreDice();
+		assertEquals("Should not have points for only twos in round score.", 0, turnScore.getTotalScore());
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
 		assertEquals("No score shoud be given for only twos", 0, scores.size()); 
 	}
 }
+
+
+// TODO reset used dice if score using all dice
