@@ -8,8 +8,13 @@ import java.util.Set;
 public class TurnScore {
 
 	private int totalScore;
+	private List<ScoreCombination> combos;
+	private Set<Die> zeroDice;
 
 	public TurnScore() {
+		totalScore = 0;
+		combos = new LinkedList<ScoreCombination>();
+		zeroDice = new HashSet<Die>();
 	}
 
 	public int getTotalScore() {
@@ -17,10 +22,15 @@ public class TurnScore {
 	}
 
 	public Set<Die> getZeroPointDice() {
-		return new HashSet<Die>();
+		return zeroDice;
 	}
 
 	public List<ScoreCombination> getScoreCombos() {
-		return new LinkedList<ScoreCombination>();
+		return combos;
+	}
+
+	public void addScore(ScoreCombination combo) {
+		combos.add(combo);
+		totalScore += combo.getScore();
 	}
 }

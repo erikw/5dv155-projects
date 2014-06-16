@@ -9,8 +9,10 @@ public class GreedGame {
 
 	private int roundScore;
 	private Stack<TurnScore> turnScores;
-	private Die[] dice;
+	private Die[] allDice;
 	private Set<Die> availableDice;
+
+	private static final int LADDER_SUM = 1 + 2 + 3 + 4 + 5 + 6;
 
 	public static final int POINTS_TRIPLET_FACTOR = 100;
 	public static final int POINTS_SINGLES_ONES = 100;
@@ -22,18 +24,18 @@ public class GreedGame {
 		newRound();
 		turnScores = new Stack<TurnScore>();
 		availableDice = new HashSet<Die>();
-		dice = new Die[6];
-		for (int i = 0; i < dice.length; ++i) {
+		allDice = new Die[6];
+		for (int i = 0; i < allDice.length; ++i) {
 			Die die = new Die();
-			dice[i] = die;
+			allDice[i] = die;
 			availableDice.add(die);
 		}
 	}
 
 	public void setDice(Die[] dice) {
-		this.dice = dice;
+		allDice = dice;
 		availableDice.clear();
-		for (Die die : dice) {
+		for (Die die : allDice) {
 			availableDice.add(die);
 		}
 	}
@@ -51,7 +53,7 @@ public class GreedGame {
 	}
 
 	public Die[] getAllDice() {
-		return dice;
+		return allDice;
 	}
 
 	public void newRound() {
@@ -78,8 +80,20 @@ public class GreedGame {
 	}
 
 	private boolean scoreLadder(Set<Die> dice, TurnScore score) {
-		//availableDice.size() == dice.length && 
-		return false;
+		if (dice.size() != allDice.length) {
+			return false;
+		}
+		int sum = 0;
+		for (Die die : dice) {
+			sum += die.getValue();
+		}
+		if (sum == GreedGame.LADDER_SUM) {
+			ScoreCombination combo = new ScoreCombination(GreedGame.POINTS_LADDER, dice);
+			score.addScore(combo);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private void scoreTriplets(Set<Die> dice, TurnScore score) {
