@@ -96,7 +96,7 @@ public class GreedGameTest extends AndroidTestCase {
 		game.setDice(diceMock);
 		TurnScore turnScore = game.scoreDice(selectedDice);
 
-		assertEquals("No dices selected, should score zero.", 0, turnScore.getTotalScore());
+		assertEquals("No dice selected, should score zero.", 0, turnScore.getTotalScore());
 
 		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
 		assertEquals("No dice should have been zero scored.", 0, zeroPointDice.size());
@@ -111,11 +111,11 @@ public class GreedGameTest extends AndroidTestCase {
 			die.setValue(2);
 			selectedDice.add(die);
 		}
-		diceMock[0].setValue(1);
+		diceMock[0].setValue(3);
 		game.setDice(diceMock);
 		TurnScore turnScore = game.scoreDice(selectedDice);
 
-		assertEquals("All dices should score zero", 0, turnScore.getTotalScore());
+		assertEquals("All dice should score zero.", 0, turnScore.getTotalScore());
 
 		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
 		assertEquals("All dice should be zero scores.", diceMock.length, zeroPointDice.size());
@@ -270,5 +270,6 @@ public class GreedGameTest extends AndroidTestCase {
 
 
 // TODO test singles
+// TODO test triplet + single socres: 1,1,1,5,5,6
 // TODO test ladder followed by triplet/single
 // TODO reset used dice if score using all dice e.g. two triplets, ladder

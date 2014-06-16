@@ -3,8 +3,8 @@ package se.umu.androidcourse.erwe0033.greed;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -65,9 +65,9 @@ public class GreedGame {
 		roundScore = 0;
 	}
 
-	public TurnScore scoreDice(Set<Die> selecteDice) {
-		checkForReuse(selecteDice);
-		Set<Die> dice = new HashSet<Die>(selecteDice); // Don't modify original.
+	public TurnScore scoreDice(Set<Die> selectedDice) {
+		checkForReuse(selectedDice);
+		Set<Die> dice = new HashSet<Die>(selectedDice); // Don't modify original.
 		TurnScore score = new TurnScore();
 		if (!scoreLadder(dice, score)) {
 			scoreTriplets(dice, score);
@@ -144,6 +144,18 @@ public class GreedGame {
 	}
 
 	private void scoreSingles(Set<Die> selectedDice, TurnScore score) {
-
+		Iterator<Die> itr = selectedDice.iterator();
+		while (itr.hasNext()) {
+			Die die = itr.next();
+			int value = die.getValue();
+			if (value == 1 || value == 5) {
+				Set<Die> comboSet = new HashSet<Die>();
+				comboSet.add(die);
+				int points = (value == 1) ? GreedGame.POINTS_SINGLES_ONES : GreedGame.POINTS_SINGLES_FIVES;
+				score.addScore(new ScoreCombination(points, comboSet));
+				availableDice.remove(die);
+				itr.remove();
+			}
+		}
 	}
 }
