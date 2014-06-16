@@ -93,15 +93,30 @@ public class GreedGameTest extends AndroidTestCase {
 		Assert.assertEquals("Roll value wrong.", sequence[0], rollValue);
 	}
 
-	public void testZeroRoundScorePeek() {
+	public void testTurnScoreZero() {
 		for (DieMock die : diceMock) {
 			die.setValue(2);
 		}
 		game.setDice(diceMock);
 		TurnScore turnScore = game.scoreDice();
+
 		assertEquals("Should not have points for only twos in round score.", 0, turnScore.getTotalScore());
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
 		assertEquals("No score shoud be given for only twos", 0, scores.size()); 
+	}
+
+	public void testTurnScoreLadder() {
+		int dieValue = 1;
+		for (DieMock die : diceMock) {
+			die.setValue(dieValue++);
+		}
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice();
+
+		assertEquals("Should score ladder", GreedGame.POINTS_LADDER, turnScore.getTotalScore());
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should only have one score combo for ladder.", 1, scores.size()); 
+		assertEquals("The only score combo should be ladder.", GreedGame.POINTS_LADDER, scores.get(0).getScore());
 	}
 }
 

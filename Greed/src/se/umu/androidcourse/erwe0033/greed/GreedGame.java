@@ -12,6 +12,11 @@ public class GreedGame {
 	private Die[] dice;
 	private Set<Die> availableDice;
 
+	public static final int POINTS_TRIPLET_FACTOR = 100;
+	public static final int POINTS_SINGLES_ONES = 100;
+	public static final int POINTS_SINGLES_FIVES = 50;
+	public static final int POINTS_LADDER = 1000;
+
 
 	public GreedGame() {
 		newRound();
