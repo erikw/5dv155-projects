@@ -142,8 +142,8 @@ public class GreedGame {
 		availableDice.removeAll(triplet);
 		selectedDice.removeAll(triplet);
 	}
+
 	private void scoreSingles(Set<Die> selectedDice, TurnScore score) {
 
 	}
-
 }

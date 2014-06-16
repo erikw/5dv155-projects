@@ -94,8 +94,8 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testScoreNothing() {
 		Set<Die> selectedDice = new HashSet<Die>();
 		game.setDice(diceMock);
-
 		TurnScore turnScore = game.scoreDice(selectedDice);
+
 		assertEquals("No dices selected, should score zero.", 0, turnScore.getTotalScore());
 
 		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
@@ -114,6 +114,7 @@ public class GreedGameTest extends AndroidTestCase {
 		diceMock[0].setValue(1);
 		game.setDice(diceMock);
 		TurnScore turnScore = game.scoreDice(selectedDice);
+
 		assertEquals("All dices should score zero", 0, turnScore.getTotalScore());
 
 		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
@@ -223,9 +224,51 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have score of tripletse" , dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(1).getScore());
 	}
 
+	public void testScoreSingle1() {
+		diceMock[0].setValue(1);
+		diceMock[1].setValue(2);
+		Set<Die> selectedDice = new HashSet<Die>();
+		selectedDice.add(diceMock[0]);
+		selectedDice.add(diceMock[1]);
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("One die should score zero.", 1, zeroPointDice.size());
+		if (zeroPointDice.iterator().next().getValue() != 2) {
+			fail("Die with value 2 should score 0");
+		}
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should have one score combo for single of 1.", 1, scores.size());
+		assertEquals("Should have score of single of one", GreedGame.POINTS_SINGLES_ONES, scores.get(0).getScore());
+	}
+
+	public void testScoreSingle5() {
+		int value1 = 5;
+		int value2 = 4;
+		diceMock[0].setValue(value1);
+		diceMock[1].setValue(value2);
+		Set<Die> selectedDice = new HashSet<Die>();
+		selectedDice.add(diceMock[0]);
+		selectedDice.add(diceMock[1]);
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("One die should score zero.", 1, zeroPointDice.size());
+		if (zeroPointDice.iterator().next().getValue() != value2) {
+			fail("Die with value " + value2 + " should score 0");
+		}
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should have one score combo for single of 5.", 1, scores.size());
+		assertEquals("Should have score of single of 5.", GreedGame.POINTS_SINGLES_FIVES, scores.get(0).getScore());
+	}
+
 }
 
 
-// TODO test what happens if selecteDice is emtpy
+// TODO test singles
 // TODO test ladder followed by triplet/single
-// TODO reset used dice if score using all dice
+// TODO reset used dice if score using all dice e.g. two triplets, ladder
