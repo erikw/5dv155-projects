@@ -241,7 +241,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have triplet of ones score." , GreedGame.POINTS_TRIPLET_OF_ONES, scores.get(0).getScore());
 	}
 
-	public void testTwoTriplets() throws GameOverException {
+	public void testTwoTripletsAndContinue() throws GameOverException {
 		int dieValue1 = 1;
 		int dieValue2 = 3;
 		Set<Die> selectedDice = new HashSet<Die>();
@@ -262,7 +262,11 @@ public class GreedGameTest extends AndroidTestCase {
 
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
 		assertEquals("Should only have two scores for two triplets.", 2, scores.size());
-		assertEquals("Should have score of triplets of 3 and triplets of one" , (GreedGame.POINTS_TRIPLET_OF_ONES + dieValue2 * GreedGame.POINTS_TRIPLET_FACTOR), turnScore.getTotalScore());
+		int expScore = GreedGame.POINTS_TRIPLET_OF_ONES + dieValue2 * GreedGame.POINTS_TRIPLET_FACTOR;
+		assertEquals("Should have turn score of triplets of 3 and triplets of one", expScore, turnScore.getTotalScore());
+		assertEquals("Should have turn score of triplets of 3 and triplets of one", expScore, game.getRoundScore());
+		assertEquals("Should have total round score of triplets of 3 and triplets of one", expScore, game.getRoundScore());
+		assertEquals("All dice should be availabe after using all dice.", diceMock.length, game.getAvailableDice().size());
 	}
 
 	public void testTwoTripletsOfSameValue() throws GameOverException {
@@ -441,7 +445,6 @@ public class GreedGameTest extends AndroidTestCase {
 }
 
 
-// TODO test continue after using all dice.
 // TODO test scoreing with diece already used previously to score.
 // TODO reset used dice if score using all dice e.g. two triplets, ladder
 // TODO can't roll before scored anything (unless first roll).
