@@ -1,4 +1,4 @@
-package se.umu.androidcourse.erwe0033.greed;
+package se.umu.androidcourse.erwe0033.greed.model;
 
 import java.util.HashSet;
 import java.util.LinkedList;

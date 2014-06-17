@@ -8,9 +8,9 @@ import java.util.Set;
 
 import android.test.AndroidTestCase;
 
-import se.umu.androidcourse.erwe0033.greed.*;
-import se.umu.androidcourse.erwe0033.greed.GreedGame.GameOverException;
-import se.umu.androidcourse.erwe0033.greed.GreedGame.GameWonException;
+import se.umu.androidcourse.erwe0033.greed.model.*;
+import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameOverException;
+import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameWonException;
 
 public class GreedGameTest extends AndroidTestCase {
 	private GreedGame game;
