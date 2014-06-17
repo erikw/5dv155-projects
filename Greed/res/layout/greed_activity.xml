@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	>
+	<TextView
+    	android:id="@+id/total_score_label"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+    	android:layout_alignParentLeft="true"
+    	android:textStyle="bold"
+    	android:text="@string/total_point_text" />
+	<TextView
+    	android:id="@+id/total_score"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_toRightOf="@id/total_score_label"
+    	android:layout_marginLeft="3dp"
+    	android:text="0" />
+	<Button
+		android:id="@+id/roll_score_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_above="@+id/test_die"
+		android:layout_centerHorizontal="true"
+		android:textSize="24sp"
+		android:text="Roll" />
+	<ImageView
+    	android:id="@id/test_die"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+    	android:scaleType="center"
+    	android:src="@drawable/red1" />
+</RelativeLayout>
+
