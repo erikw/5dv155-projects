@@ -294,6 +294,7 @@ public class GreedGameTest extends AndroidTestCase {
 		selectedDice.add(diceMock[1]);
 		game.setDice(diceMock);
 		game.newRound();
+		assertEquals("All dice should be availabe before scoring.", diceMock.length, game.getAvailableDice().size());
 		try {
 			game.scoreDice(selectedDice);
 			fail("100<300 points on first try means game should end.");
@@ -309,6 +310,7 @@ public class GreedGameTest extends AndroidTestCase {
 		List<ScoreCombination> scores = turnScore.getScoreCombos();
 		assertEquals("Should have one score combo for single of 1.", 1, scores.size());
 		assertEquals("Should have score of single of one", GreedGame.POINTS_SINGLES_ONES, scores.get(0).getScore());
+		assertEquals("5 dice should be avaialbe after scoring with one.", (diceMock.length - 1), game.getAvailableDice().size());
 	}
 
 	public void testScoreSingle5() throws GameOverException {
