@@ -444,6 +444,30 @@ public class GreedGameTest extends AndroidTestCase {
 			fail("Game should stop, nothing scored.");
 		} catch (GameOverException goe) { }
 	}
+
+	public void testScoreReuseOfDice() throws GameOverException {
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (int i = 0; i < 3; ++i) {
+			diceMock[i].setValue(1);
+			selectedDice.add(diceMock[i]);
+		}
+		diceMock[3].setValue(1);
+		selectedDice.add(diceMock[3]);
+		game.setDice(diceMock);
+		game.newRound();
+		try {
+			game.scoreDice(selectedDice);
+		} catch (GameOverException goe) { }
+		diceMock[0].setValue(5);
+		diceMock[3].setValue(5);
+		selectedDice.clear();
+		selectedDice.add(diceMock[0]);
+		selectedDice.add(diceMock[3]);
+		try {
+			game.scoreDice(selectedDice);
+			fail("Trying to score with already scoring dice is programming error!");
+		} catch (RuntimeException re) { }
+	}
 }
 
 

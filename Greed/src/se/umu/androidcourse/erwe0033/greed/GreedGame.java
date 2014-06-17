@@ -85,8 +85,8 @@ public class GreedGame {
 		if (!gameIsOn) {
 			throw new GameOverException();
 		}
-
 		checkForReuse(selectedDice);
+
 		Set<Die> dice = new HashSet<Die>(selectedDice); // Don't modify original.
 		TurnScore score = new TurnScore();
 		if (!scoreLadder(dice, score)) {
