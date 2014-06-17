@@ -54,7 +54,7 @@ public class GreedGameTest extends AndroidTestCase {
 
 
 	public class RandomMock extends Random {
-		private static final long serialVersionUID = 0;
+		private static final long serialVersionUID = 1L;
 
 		private int[] sequence;
 		private int index;
@@ -471,8 +471,6 @@ public class GreedGameTest extends AndroidTestCase {
 }
 
 
-// TODO test scoreing with diece already used previously to score.
-// TODO reset used dice if score using all dice e.g. two triplets, ladder
 // TODO can't roll before scored anything (unless first roll).
 // TODO return zeroScoreDice to the selection pool? let user play with them again?
 // TODO test winning game, reaching 10000
