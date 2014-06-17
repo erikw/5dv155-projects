@@ -24,6 +24,8 @@ public class GreedGame {
 	public static final int POINTS_SINGLES_ONES = 100;
 	public static final int POINTS_SINGLES_FIVES = 50;
 	public static final int POINTS_LADDER = 1000;
+	public static final int POINTS_CUT = 300;
+	public static final int POINTS_WINNER = 10000;
 
 	public class GameOverException extends Exception {
 		private static final long serialVersionUID = 0;
@@ -65,6 +67,10 @@ public class GreedGame {
 		return allDice;
 	}
 
+	public Set<Die> getAvailableDice() {
+		return availableDice;
+	}
+
 	public void newRound() {
 		roundScore = 0;
 		gameIsOn = true;
@@ -90,9 +96,15 @@ public class GreedGame {
 		score.addZeroScoreDice(dice);
 		turnScores.push(score);
 		this.roundScore += score.getTotalScore();
-		if (score.getTotalScore() == 0 || this.turnScores.size() == 1 && score.getTotalScore() < 300) {
+		if (score.getTotalScore() == 0 || this.turnScores.size() == 1 && score.getTotalScore() < GreedGame.POINTS_CUT) {
 			this.gameIsOn = false;
 			throw new GameOverException();
+		}
+		if (availableDice.size() == 0) {
+			for (Die die : this.allDice) {
+				die.roll();
+				availableDice.add(die);
+			}
 		}
 		 return score;
 	}

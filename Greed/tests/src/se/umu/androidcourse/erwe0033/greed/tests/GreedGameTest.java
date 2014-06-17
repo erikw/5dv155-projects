@@ -364,31 +364,86 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have combines score of: 1-triplet + 2*5singles.", GreedGame.POINTS_TRIPLET_OF_ONES + 2 * GreedGame.POINTS_SINGLES_FIVES, turnScore.getTotalScore());
 	}
 
-	//public void testScoreLadderTripletSingle() {
-		//int dieValue = 1;
-		//Set<Die> selectedDice = new HashSet<Die>();
-		//for (DieMock die : diceMock) {
-			//die.setValue(dieValue++);
-			//selectedDice.add(die);
-		//}
-		//game.setDice(diceMock);
-		//int expRoundScore = 0
-		//assertEquals("Initial round score should be zero.", expRoundScore, game.getRoundScore());
-		//TurnScore turnScore = game.scoreDice(selectedDice);
-		//assertEquals("Should score ladder", GreedGame.POINTS_LADDER, turnScore.getTotalScore());
-		//expRoundScore += GreedGame.POINTS_LADDER;
-		//assertEquals("Round scrore not incremented after ladder", 0, game.getRoundScore());
+	public void testScoreLadderTripletSingle() {
+		int dieValue = 1;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (DieMock die : diceMock) {
+			die.setValue(dieValue++);
+			selectedDice.add(die);
+		}
+		game.setDice(diceMock);
+		game.newRound();
+		int expRoundScore = 0;
+		assertEquals("Initial round score should be zero.", expRoundScore, game.getRoundScore());
+		assertEquals("All dice should be available at game start.", diceMock.length, game.getAvailableDice().size());
 
-	//}
+		TurnScore turnScore = null;
+		try {
+			turnScore = game.scoreDice(selectedDice);
+		} catch (GameOverException goe) {
+			fail("Game should continue after ladder.");
+		}
 
+		assertEquals("Should score ladder", GreedGame.POINTS_LADDER, turnScore.getTotalScore());
+		expRoundScore += GreedGame.POINTS_LADDER;
+		assertEquals("Round scrore not incremented after ladder", expRoundScore, game.getRoundScore());
+		assertEquals("All dice should be available after ladder.", diceMock.length, game.getAvailableDice().size());
 
+		selectedDice.clear();
+		diceMock[0].setValue(2);
+		for (int i = 1; i < 4; ++i) {
+			diceMock[i].setValue(3);
+			selectedDice.add(diceMock[i]);
+		}
+		diceMock[4].setValue(4);
+		diceMock[5].setValue(4);
+		try {
+			turnScore = game.scoreDice(selectedDice);
+		} catch (GameOverException goe) {
+			fail("Game should continue after ladder.");
+		}
 
+		assertEquals("Should score triplet of 3s", 3 * GreedGame.POINTS_TRIPLET_FACTOR, turnScore.getTotalScore());
+		expRoundScore += 3 * GreedGame.POINTS_TRIPLET_FACTOR;
+		assertEquals("Round scrore not incremented after triplet", expRoundScore, game.getRoundScore());
+		assertEquals("3 dice should be avilable after triplet", 3, game.getAvailableDice().size());
+
+		selectedDice.clear();
+		Iterator<Die> itr = game.getAvailableDice().iterator();
+		for (int i = 0; i < 3; ++i) {
+			DieMock die = (DieMock) itr.next();
+			die.setValue(i);
+			selectedDice.add(die);
+		}
+		try {
+			turnScore = game.scoreDice(selectedDice);
+		} catch (GameOverException goe) {
+			fail("Game should continue after single score.");
+		}
+
+		assertEquals("Should score single of 1s", GreedGame.POINTS_SINGLES_ONES, turnScore.getTotalScore());
+		expRoundScore += GreedGame.POINTS_SINGLES_ONES;
+		assertEquals("Round scrore not incremented after single of 1s", expRoundScore, game.getRoundScore());
+		assertEquals("2 dice should be available after triplet", 2, game.getAvailableDice().size());
+
+		selectedDice.clear();
+		itr = game.getAvailableDice().iterator();
+		for (int i = 0; i < 2; ++i) {
+			DieMock die = (DieMock) itr.next();
+			die.setValue(2);
+			selectedDice.add(die);
+		}
+		try {
+			turnScore = game.scoreDice(selectedDice);
+			fail("Game should stop, nothing scored.");
+		} catch (GameOverException goe) { }
+	}
 }
 
 
-// TODO test ladder followed by triplet/single
+// TODO test continue after using all dice.
+// TODO test scoreing with diece already used previously to score.
 // TODO reset used dice if score using all dice e.g. two triplets, ladder
-// TODO if user press 
-// TODO can't roll before scored anything.
+// TODO can't roll before scored anything (unless first roll).
 // TODO return zeroScoreDice to the selection pool? let user play with them again?
-// TODO test gameover if not 300 on first round or 0 in one round. 
+// TODO test winning game, reaching 10000
