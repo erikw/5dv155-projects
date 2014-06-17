@@ -1,6 +1,7 @@
 package se.umu.androidcourse.erwe0033.greed.tests;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -266,9 +267,40 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have score of single of 5.", GreedGame.POINTS_SINGLES_FIVES, scores.get(0).getScore());
 	}
 
+	public void testScoreTripletTwoSingles() {
+		int value1 = 1;
+		int value2 = 5;
+		int value3 = 6;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (int i = 0; i < 3; ++i) {
+			diceMock[i].setValue(value1);
+			selectedDice.add(diceMock[i]);
+		}
+		for (int i = 3; i < 5; ++i) {
+			diceMock[i].setValue(value2);
+			selectedDice.add(diceMock[i]);
+		}
+		diceMock[5].setValue(value3);
+		selectedDice.add(diceMock[5]);
+		game.setDice(diceMock);
+		TurnScore turnScore = game.scoreDice(selectedDice);
+
+		Set<Die> zeroPointDice = turnScore.getZeroPointDice();
+		assertEquals("One die should score zero.", 1, zeroPointDice.size());
+		if (zeroPointDice.iterator().next().getValue() != value3) {
+			fail("Die with value " + value3 + " should score 0");
+		}
+
+		List<ScoreCombination> scores = turnScore.getScoreCombos();
+		assertEquals("Should have three score combos: triplet + single + single.", 3, scores.size());
+		assertEquals("Should have combines score of: 1-triplet + 2*5singles.", GreedGame.POINTS_TRIPLET_OF_ONES + 2 * GreedGame.POINTS_SINGLES_FIVES, turnScore.getTotalScore());
+	}
+
 }
 
 
-// TODO test triplet + single socres: 1,1,1,5,5,6
 // TODO test ladder followed by triplet/single
 // TODO reset used dice if score using all dice e.g. two triplets, ladder
+// TODO if user press 
+// TODO can't roll before scored anything.
+// TODO return zeroScoreDice to the selection pool? let user play with them again?
