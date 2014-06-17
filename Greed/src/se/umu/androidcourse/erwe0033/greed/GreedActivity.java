@@ -1,3 +1,4 @@
+// TODO make scalable app icon and die images.
 package se.umu.androidcourse.erwe0033.greed;
 
 import android.app.Activity;
