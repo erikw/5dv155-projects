@@ -10,6 +10,7 @@ import android.test.AndroidTestCase;
 
 import se.umu.androidcourse.erwe0033.greed.*;
 import se.umu.androidcourse.erwe0033.greed.GreedGame.GameOverException;
+import se.umu.androidcourse.erwe0033.greed.GreedGame.GameWonException;
 
 public class GreedGameTest extends AndroidTestCase {
 	private GreedGame game;
@@ -93,7 +94,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Roll value wrong.", sequence[0], rollValue);
 	}
 
-	public void testScoreWIthoutNewRound() {
+	public void testScoreWIthoutNewRound() throws GameWonException{
 		Set<Die> selectedDice = new HashSet<Die>();
 		game.setDice(diceMock);
 		try {
@@ -102,7 +103,7 @@ public class GreedGameTest extends AndroidTestCase {
 		} catch (GameOverException goe) {  }
 	}
 
-	public void testScoreNothing() {
+	public void testScoreNothing() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
 		game.setDice(diceMock);
 		game.newRound();
@@ -122,7 +123,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("No score shoud have been given.", 0, scores.size());
 	}
 
-	public void testTurnScoreZero() throws GameOverException {
+	public void testTurnScoreZero() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
 			selectedDice.add(die);
@@ -156,7 +157,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("No score shoud have been given.", 0, scores.size());
 	}
 
-	public void testScoreOneTriplet() {
+	public void testScoreOneTriplet() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
 			die.setValue(2);
@@ -182,7 +183,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Triplet of two's should give 2*100", 2 * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(0).getScore());
 	}
 
-	public void testTurnScoreLadder() throws GameOverException {
+	public void testTurnScoreLadder() throws GameOverException, GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
@@ -203,7 +204,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("The only score combo should be ladder.", GreedGame.POINTS_LADDER, scores.get(0).getScore());
 	}
 
-	public void testTriplets() throws GameOverException {
+	public void testTriplets() throws GameOverException, GameWonException {
 		int dieValue = 5;
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (int i = 0; i < 3; ++i) {
@@ -222,7 +223,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have " + dieValue + " * tiplet score.", dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(0).getScore());
 	}
 
-	public void testTripletsOfOne() throws GameOverException {
+	public void testTripletsOfOne() throws GameOverException, GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (int i = 0; i < 3; ++i) {
@@ -241,7 +242,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have triplet of ones score." , GreedGame.POINTS_TRIPLET_OF_ONES, scores.get(0).getScore());
 	}
 
-	public void testTwoTripletsAndContinue() throws GameOverException {
+	public void testTwoTripletsAndContinue() throws GameOverException, GameWonException {
 		int dieValue1 = 1;
 		int dieValue2 = 3;
 		Set<Die> selectedDice = new HashSet<Die>();
@@ -269,7 +270,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("All dice should be availabe after using all dice.", diceMock.length, game.getAvailableDice().size());
 	}
 
-	public void testTwoTripletsOfSameValue() throws GameOverException {
+	public void testTwoTripletsOfSameValue() throws GameOverException, GameWonException {
 		int dieValue = 2;
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (int i = 0; i < diceMock.length; ++i) {
@@ -286,7 +287,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have score of tripletse" , dieValue * GreedGame.POINTS_TRIPLET_FACTOR, scores.get(1).getScore());
 	}
 
-	public void testScoreSingle1() throws GameOverException {
+	public void testScoreSingle1() throws GameOverException, GameWonException {
 		diceMock[0].setValue(1);
 		diceMock[1].setValue(2);
 		Set<Die> selectedDice = new HashSet<Die>();
@@ -313,7 +314,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("5 dice should be avaialbe after scoring with one.", (diceMock.length - 1), game.getAvailableDice().size());
 	}
 
-	public void testScoreSingle5() throws GameOverException {
+	public void testScoreSingle5() throws GameOverException, GameWonException {
 		int value1 = 5;
 		int value2 = 4;
 		diceMock[0].setValue(value1);
@@ -340,7 +341,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have score of single of 5.", GreedGame.POINTS_SINGLES_FIVES, scores.get(0).getScore());
 	}
 
-	public void testScoreTripletTwoSingles() throws GameOverException {
+	public void testScoreTripletTwoSingles() throws GameOverException, GameWonException {
 		int value1 = 1;
 		int value2 = 5;
 		int value3 = 6;
@@ -370,7 +371,7 @@ public class GreedGameTest extends AndroidTestCase {
 		assertEquals("Should have combines score of: 1-triplet + 2*5singles.", GreedGame.POINTS_TRIPLET_OF_ONES + 2 * GreedGame.POINTS_SINGLES_FIVES, turnScore.getTotalScore());
 	}
 
-	public void testScoreLadderTripletSingle() {
+	public void testScoreLadderTripletSingle() throws GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (DieMock die : diceMock) {
@@ -445,7 +446,7 @@ public class GreedGameTest extends AndroidTestCase {
 		} catch (GameOverException goe) { }
 	}
 
-	public void testScoreReuseOfDice() throws GameOverException {
+	public void testScoreReuseOfDice() throws GameOverException, GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (int i = 0; i < 3; ++i) {
 			diceMock[i].setValue(1);
@@ -468,9 +469,34 @@ public class GreedGameTest extends AndroidTestCase {
 			fail("Trying to score with already scoring dice is programming error!");
 		} catch (RuntimeException re) { }
 	}
+
+	public void testWinGame() throws GameOverException {
+		int dieValue = 1;
+		Set<Die> selectedDice = new HashSet<Die>();
+		for (DieMock die : diceMock) {
+			die.setValue(dieValue++);
+			selectedDice.add(die);
+		}
+		game.setDice(diceMock);
+		game.newRound();
+		int expScore = 0;
+		for (int loop = 0; loop < 9; ++loop) {
+			try {
+				game.scoreDice(selectedDice);
+			} catch (Exception e) { }
+			expScore += GreedGame.POINTS_LADDER;
+			assertEquals("Turn score not updated after scoring another ladder.", expScore, game.getRoundScore());
+		}
+		try {
+			game.scoreDice(selectedDice);
+			fail("Game not won after doing 10 ladders.");
+		} catch (GameWonException gwe) {
+			assertEquals("Final game score not correct.", GreedGame.POINTS_WINNER, game.getRoundScore());
+			assertEquals("Wrong number of turns recorded", 10, game.GetNoTurnsTaken());
+		}
+	}
 }
 
 
 // TODO can't roll before scored anything (unless first roll).
 // TODO return zeroScoreDice to the selection pool? let user play with them again?
-// TODO test winning game, reaching 10000

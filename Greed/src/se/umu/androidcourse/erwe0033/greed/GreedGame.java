@@ -27,8 +27,13 @@ public class GreedGame {
 	public static final int POINTS_CUT = 300;
 	public static final int POINTS_WINNER = 10000;
 
+
 	public class GameOverException extends Exception {
-		private static final long serialVersionUID = 0;
+		private static final long serialVersionUID = 1L;
+	}
+
+	public class GameWonException extends Exception {
+		private static final long serialVersionUID = 1L;
 	}
 
 
@@ -63,6 +68,10 @@ public class GreedGame {
 		}
 	}
 
+	public int GetNoTurnsTaken() {
+		return turnScores.size();
+	}
+
 	public Die[] getAllDice() {
 		return allDice;
 	}
@@ -81,7 +90,7 @@ public class GreedGame {
 		}
 	}
 
-	public TurnScore scoreDice(Set<Die> selectedDice) throws GameOverException {
+	public TurnScore scoreDice(Set<Die> selectedDice) throws GameOverException, GameWonException {
 		if (!gameIsOn) {
 			throw new GameOverException();
 		}
@@ -96,15 +105,19 @@ public class GreedGame {
 		score.addZeroScoreDice(dice);
 		turnScores.push(score);
 		this.roundScore += score.getTotalScore();
-		if (score.getTotalScore() == 0 || this.turnScores.size() == 1 && score.getTotalScore() < GreedGame.POINTS_CUT) {
-			this.gameIsOn = false;
-			throw new GameOverException();
-		}
 		if (availableDice.size() == 0) {
 			for (Die die : this.allDice) {
 				die.roll();
 				availableDice.add(die);
 			}
+		}
+
+		if (score.getTotalScore() == 0 || this.turnScores.size() == 1 && score.getTotalScore() < GreedGame.POINTS_CUT) {
+			this.gameIsOn = false;
+			throw new GameOverException();
+		} else if (this.roundScore >= GreedGame.POINTS_WINNER) {
+			this.gameIsOn = false;
+			throw new GameWonException();
 		}
 		 return score;
 	}
