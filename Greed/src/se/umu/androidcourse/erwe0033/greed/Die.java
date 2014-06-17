@@ -4,8 +4,9 @@ import java.util.Random;
 
 public class Die {
 
-	private int value;
+	protected int value;
 	private Random randGen;
+
 
 	public Die(Random randGen) {
 		this.value = 0;
@@ -21,7 +22,7 @@ public class Die {
 	}
 
 	public int roll() {
-		return 0;
+		return randGen.nextInt(6) + 1;
 	}
 
 }
