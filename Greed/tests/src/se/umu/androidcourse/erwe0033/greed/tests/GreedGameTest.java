@@ -14,13 +14,13 @@ import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameWonException;
 
 public class GreedGameTest extends AndroidTestCase {
 	private GreedGame game;
-	private DieMock[] diceMock;
+	private Die[] diceMock;
 
     public void setUp() {
     	game = new GreedGame();
-		diceMock = new DieMock[6];
+		diceMock = new Die[6];
 		for (int i = 0; i < diceMock.length; ++i) {
-			diceMock[i] = new DieMock(1);
+			diceMock[i] = new Die(1);
 		}
     }
 
@@ -72,17 +72,6 @@ public class GreedGameTest extends AndroidTestCase {
 		}
 	}
 
-	public class DieMock extends Die {
-		public DieMock(int value) {
-			super();
-			this.value = value;
-		}
-
-		public void setValue(int value) {
-			this.value = value;
-		}
-	}
-
 	public void testDieRoll() {
 		int[] sequence = new int[] {1,3,5,6,2,3};
 		Die die = new Die(new RandomMock(sequence));
@@ -125,7 +114,7 @@ public class GreedGameTest extends AndroidTestCase {
 
 	public void testTurnScoreZero() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			selectedDice.add(die);
 		}
 		diceMock[0].setValue(2);
@@ -159,7 +148,7 @@ public class GreedGameTest extends AndroidTestCase {
 
 	public void testScoreOneTriplet() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(2);
 			selectedDice.add(die);
 		}
@@ -186,7 +175,7 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testTurnScoreLadder() throws GameOverException, GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}
@@ -374,7 +363,7 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testScoreLadderTripletSingle() throws GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}
@@ -418,7 +407,7 @@ public class GreedGameTest extends AndroidTestCase {
 		selectedDice.clear();
 		Iterator<Die> itr = game.getAvailableDice().iterator();
 		for (int i = 0; i < 3; ++i) {
-			DieMock die = (DieMock) itr.next();
+			Die die = (Die) itr.next();
 			die.setValue(i);
 			selectedDice.add(die);
 		}
@@ -436,7 +425,7 @@ public class GreedGameTest extends AndroidTestCase {
 		selectedDice.clear();
 		itr = game.getAvailableDice().iterator();
 		for (int i = 0; i < 2; ++i) {
-			DieMock die = (DieMock) itr.next();
+			Die die = (Die) itr.next();
 			die.setValue(2);
 			selectedDice.add(die);
 		}
@@ -473,7 +462,7 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testWinGame() throws GameOverException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}

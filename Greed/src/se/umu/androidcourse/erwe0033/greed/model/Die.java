@@ -22,8 +22,25 @@ public class Die {
 		this(new Random());
 	}
 
+	public Die(int value) {
+		this();
+		validValue(value);
+		this.value = value;
+	}
+
 	public int getValue() {
 		return value;
+	}
+
+	private void validValue(int value) {
+		if (!(value >= 1 && value <= 6)) {
+			throw new RuntimeException(value + "is not a valid die value.");
+		}
+	}
+
+	public void setValue(int value) {
+		validValue(value);
+		this.value = value;
 	}
 
 	public int roll() {

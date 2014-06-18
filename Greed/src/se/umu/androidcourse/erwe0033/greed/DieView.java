@@ -7,8 +7,6 @@ import android.widget.ImageView;
 public class DieView extends ImageView {
 	private Die die;
 	private GreedActivity greedActivity;
-	private static int count = 0;
-	private int id;
 
     private static Integer[] availDieIDs = {
         R.drawable.red1, R.drawable.red2, R.drawable.red3, 
@@ -27,7 +25,6 @@ public class DieView extends ImageView {
 		super(greedActivity);	
 		this.greedActivity = greedActivity;
 		this.die = die;
-		this.id = count++;
 	}
 
 	public void setDie(Die die) {
@@ -38,8 +35,7 @@ public class DieView extends ImageView {
 		return die;
 	}
 
-
-	public void setImage() {
+	public void updateImage() {
 		int pos = die.getValue() - 1;
         switch (greedActivity.stateOf(die)) {
         	case AVAILABLE:
@@ -52,9 +48,5 @@ public class DieView extends ImageView {
         		setImageResource(usedDieIDs[pos]);
         		break;
         }
-	}
-
-	public String toString() {
-		return "DieViewID= " + id;
 	}
 }

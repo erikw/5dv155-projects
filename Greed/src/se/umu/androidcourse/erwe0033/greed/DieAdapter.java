@@ -43,7 +43,7 @@ public class DieAdapter extends BaseAdapter {
 			dieView = (DieView) convertView;
 			dieView.setDie(dice[position]);
 		}
-		dieView.setImage();
+		dieView.updateImage();
         return dieView;
     }
 

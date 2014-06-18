@@ -2,9 +2,9 @@
 // TODO better (transparent icon)
 // TODO result activity
 // TODO turn scores list with points given.
-// TODO should not have to roll each turn..... if they are good, may not want to roll
 // TODO small legend with scoring rules?
 // TODO disable landscape mode?
+// TODO green snooker background
 
 package se.umu.androidcourse.erwe0033.greed;
 
@@ -48,18 +48,24 @@ public class GreedActivity extends Activity
 
         this.selectedDice = new HashSet<Die>();
         this.game = new GreedGame();
+
+    	int dieCount = 1;
+    	for (Die die : game.getAllDice()) {
+			die.setValue(dieCount++);
+    	}
+
 		this.dieAdapter = new DieAdapter(this, game.getAllDice());
 		this.roundScoreText = (TextView) findViewById(R.id.round_score);
 		this.numberTurnsText = (TextView) findViewById(R.id.number_turns);
 		this.restartButton = (Button) findViewById(R.id.restart_button);
 		this.rollButton = (Button) findViewById(R.id.roll_button);
 		this.scoreButton = (Button) findViewById(R.id.score_button);
-		//scoreButton.setVisibility(View.GONE);
-		//scoreButton.setVisibility(View.GONE);
+
 
     	GridView gridView = (GridView) findViewById(R.id.dice_grid);
     	gridView.setAdapter(this.dieAdapter);
     	gridView.setOnItemClickListener(new DieClickListener(this, dieAdapter, selectedDice));
+
     }
 
     public DieState stateOf(Die die) {
@@ -83,19 +89,27 @@ public class GreedActivity extends Activity
 
         restartButton.setText("Restart");
         rollButton.setVisibility(View.VISIBLE);
-        scoreButton.setVisibility(View.GONE);
+        scoreButton.setVisibility(View.VISIBLE);
 		roundScoreText.setText("0");
 		numberTurnsText.setText("0");
         Toast.makeText(this, "New game started.", Toast.LENGTH_SHORT).show();
     }
 
+	private boolean nothingSelected() {
+		if (selectedDice.size() == 0) {
+        	Toast.makeText(this, "You must select at least one die.", Toast.LENGTH_SHORT).show();
+        	return true;
+        } else {
+        	return false;
+        }
+	}
+
     public void onRollClick(View view) {
     	if (!game.gameIsOn()) {
         	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
         	return;
-    	}
-		if (selectedDice.size() == 0) {
-        	Toast.makeText(this, "You must select at least one die.", Toast.LENGTH_SHORT).show();
+    	} else if (nothingSelected()) {
+			return;
 		} else {
 			Log.v(TAG, "Number selected dice:" + selectedDice.size());
 			for (Die die : selectedDice) {
@@ -104,9 +118,7 @@ public class GreedActivity extends Activity
 			selectedDice.clear();
         	dieAdapter.notifyDataSetChanged();
         	rollButton.setVisibility(View.GONE);
-        	scoreButton.setVisibility(View.VISIBLE);
         }
-
     }
 
     public void onScoreClick(View view) {
@@ -114,10 +126,12 @@ public class GreedActivity extends Activity
         	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
         	return;
     	}
+		if (nothingSelected()) {
+			return;
+		}
 		TurnScore turnScore = null;
 		try {
 			turnScore = game.scoreDice(selectedDice);
-        	scoreButton.setVisibility(View.GONE);
         	rollButton.setVisibility(View.VISIBLE);
 		} catch (GameOverException goe) {
 			Toast.makeText(this, "Game over!", Toast.LENGTH_SHORT).show();
@@ -130,9 +144,13 @@ public class GreedActivity extends Activity
 		}
 		selectedDice.clear();
         dieAdapter.notifyDataSetChanged();
+        updateTurnScoreBoard(turnScore);
 
 		roundScoreText.setText(Integer.toString(game.getRoundScore()));
 		numberTurnsText.setText(Integer.toString(game.getNoTurnsTaken()));
     }
 
+    private void updateTurnScoreBoard(TurnScore score) {
+
+    }
 }
