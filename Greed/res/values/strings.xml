@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Greed</string>
-    <string name="total_point_text">Total score:</string>
+    <string name="round_point_text">Round score:</string>
+    <string name="number_turns_text">Number turns:</string>
 </resources>

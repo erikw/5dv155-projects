@@ -4,18 +4,34 @@
 	android:layout_height="fill_parent"
 	>
 	<TextView
-    	android:id="@+id/total_score_label"
+    	android:id="@+id/round_score_label"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
 		android:layout_alignParentTop="true"
     	android:layout_alignParentLeft="true"
     	android:textStyle="bold"
-    	android:text="@string/total_point_text" />
+    	android:text="@string/round_point_text" />
 	<TextView
-    	android:id="@+id/total_score"
+    	android:id="@+id/round_score"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:layout_toRightOf="@id/total_score_label"
+    	android:layout_toRightOf="@id/round_score_label"
+    	android:layout_marginLeft="3dp"
+    	android:text="0" />
+	<TextView
+    	android:id="@+id/number_turns_label"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+		android:layout_below="@id/round_score_label"
+    	android:layout_alignParentLeft="true"
+    	android:textStyle="bold"
+    	android:text="@string/number_turns_text" />
+	<TextView
+    	android:id="@+id/number_turns"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+		android:layout_below="@id/round_score_label"
+    	android:layout_toRightOf="@id/number_turns_label"
     	android:layout_marginLeft="3dp"
     	android:text="0" />
 	<Button
@@ -25,7 +41,8 @@
 		android:layout_above="@+id/dice_grid"
 		android:layout_centerHorizontal="true"
 		android:textSize="24sp"
-		android:text="Roll" />
+		android:text="Roll"
+	  	android:onClick="onRollScoreClick"/>
 
 	<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
     	android:id="@+id/dice_grid"

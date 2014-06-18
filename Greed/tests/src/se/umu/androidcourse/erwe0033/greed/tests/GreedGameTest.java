@@ -492,7 +492,7 @@ public class GreedGameTest extends AndroidTestCase {
 			fail("Game not won after doing 10 ladders.");
 		} catch (GameWonException gwe) {
 			assertEquals("Final game score not correct.", GreedGame.POINTS_WINNER, game.getRoundScore());
-			assertEquals("Wrong number of turns recorded", 10, game.GetNoTurnsTaken());
+			assertEquals("Wrong number of turns recorded", 10, game.getNoTurnsTaken());
 		}
 	}
 }

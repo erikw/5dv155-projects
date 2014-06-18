@@ -68,7 +68,7 @@ public class GreedGame {
 		}
 	}
 
-	public int GetNoTurnsTaken() {
+	public int getNoTurnsTaken() {
 		return turnScores.size();
 	}
 

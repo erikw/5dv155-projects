@@ -1,5 +1,8 @@
 package se.umu.androidcourse.erwe0033.greed;
 
+import java.util.Map;
+import java.util.Set;
+
 import se.umu.androidcourse.erwe0033.greed.model.Die;
 
 import android.content.Context;
@@ -12,10 +15,14 @@ import android.widget.ImageView;
 public class DieAdapter extends BaseAdapter {
     private Context context;
 	private Die[] dice;
+	private Set<Die> selectedDice;
+	private Map<Die, DieView> diceMap;
 
-    public DieAdapter(Context context, Die[] dice) {
+    public DieAdapter(Context context, Die[] dice, Set<Die> selectedDice, Map<Die, DieView> diceMap) {
         this.context = context;
         this.dice = dice;
+        this.selectedDice = selectedDice;
+        this.diceMap = diceMap;
     }
 
     public int getCount() {
@@ -33,7 +40,7 @@ public class DieAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         DieView dieView;
         if (convertView == null) {
-            dieView = new DieView(context, dice[position]);
+            dieView = new DieView(context, this, selectedDice, dice[position]);
             dieView.setLayoutParams(new GridView.LayoutParams(85, 85)); // TODO why?
             dieView.setAdjustViewBounds(true);
             dieView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -41,7 +48,7 @@ public class DieAdapter extends BaseAdapter {
             dieView = (DieView) convertView;
 			dieView.setDie(dice[position]);
         }
-
+		diceMap.put(dieView.getDie(), dieView);
 		dieView.setImage();
         return dieView;
     }
