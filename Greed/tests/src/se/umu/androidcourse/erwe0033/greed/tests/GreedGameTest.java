@@ -37,7 +37,7 @@ public class GreedGameTest extends AndroidTestCase {
     }
 
 	private void dieInitTest(Die die) {
-		assertEquals("Die initial value correct.", 0, die.getValue());
+		assertEquals("Die initial value correct.", 1, die.getValue());
 	}
 
     public void testNewDice() {

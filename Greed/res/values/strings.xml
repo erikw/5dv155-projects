@@ -3,4 +3,7 @@
 	<string name="app_name">Greed</string>
     <string name="round_point_text">Round score:</string>
     <string name="number_turns_text">Number turns:</string>
+    <string name="restart_button_text">Start</string>
+    <string name="roll_button_text">Roll</string>
+    <string name="score_button_text">Score</string>
 </resources>

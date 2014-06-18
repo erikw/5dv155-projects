@@ -6,11 +6,16 @@ public class Die {
 
 	protected int value;
 	private Random randGen;
+	private static int dieCount = 0;
+	private int dieID; // For debugging
+
 
 
 	public Die(Random randGen) {
 		this.randGen = randGen;
-		roll();
+		this.value = 1;
+		this.dieID = dieCount++;
+		//roll();
 	}
 
 	public Die() {
@@ -24,6 +29,11 @@ public class Die {
 	public int roll() {
 		this.value = randGen.nextInt(6) + 1;
 		return this.value;
+	}
+
+
+	public String toString() {
+		return "Die #" + dieID + " with value " + value;
 	}
 
 }
