@@ -8,19 +8,19 @@ import java.util.Set;
 
 import android.test.AndroidTestCase;
 
-import se.umu.androidcourse.erwe0033.greed.*;
-import se.umu.androidcourse.erwe0033.greed.GreedGame.GameOverException;
-import se.umu.androidcourse.erwe0033.greed.GreedGame.GameWonException;
+import se.umu.androidcourse.erwe0033.greed.model.*;
+import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameOverException;
+import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameWonException;
 
 public class GreedGameTest extends AndroidTestCase {
 	private GreedGame game;
-	private DieMock[] diceMock;
+	private Die[] diceMock;
 
     public void setUp() {
     	game = new GreedGame();
-		diceMock = new DieMock[6];
+		diceMock = new Die[6];
 		for (int i = 0; i < diceMock.length; ++i) {
-			diceMock[i] = new DieMock(1);
+			diceMock[i] = new Die(1);
 		}
     }
 
@@ -37,7 +37,7 @@ public class GreedGameTest extends AndroidTestCase {
     }
 
 	private void dieInitTest(Die die) {
-		assertEquals("Die initial value correct.", 0, die.getValue());
+		assertEquals("Die initial value correct.", 1, die.getValue());
 	}
 
     public void testNewDice() {
@@ -69,17 +69,6 @@ public class GreedGameTest extends AndroidTestCase {
 			int next = sequence[index];
 			index = ++index % sequence.length;
 			return next - 1; // Die.roll() will add one to put number in range.
-		}
-	}
-
-	public class DieMock extends Die {
-		public DieMock(int value) {
-			super();
-			this.value = value;
-		}
-
-		public void setValue(int value) {
-			this.value = value;
 		}
 	}
 
@@ -125,7 +114,7 @@ public class GreedGameTest extends AndroidTestCase {
 
 	public void testTurnScoreZero() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			selectedDice.add(die);
 		}
 		diceMock[0].setValue(2);
@@ -159,7 +148,7 @@ public class GreedGameTest extends AndroidTestCase {
 
 	public void testScoreOneTriplet() throws GameWonException {
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(2);
 			selectedDice.add(die);
 		}
@@ -186,7 +175,7 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testTurnScoreLadder() throws GameOverException, GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}
@@ -374,7 +363,7 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testScoreLadderTripletSingle() throws GameWonException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}
@@ -418,7 +407,7 @@ public class GreedGameTest extends AndroidTestCase {
 		selectedDice.clear();
 		Iterator<Die> itr = game.getAvailableDice().iterator();
 		for (int i = 0; i < 3; ++i) {
-			DieMock die = (DieMock) itr.next();
+			Die die = (Die) itr.next();
 			die.setValue(i);
 			selectedDice.add(die);
 		}
@@ -436,7 +425,7 @@ public class GreedGameTest extends AndroidTestCase {
 		selectedDice.clear();
 		itr = game.getAvailableDice().iterator();
 		for (int i = 0; i < 2; ++i) {
-			DieMock die = (DieMock) itr.next();
+			Die die = (Die) itr.next();
 			die.setValue(2);
 			selectedDice.add(die);
 		}
@@ -473,7 +462,7 @@ public class GreedGameTest extends AndroidTestCase {
 	public void testWinGame() throws GameOverException {
 		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
-		for (DieMock die : diceMock) {
+		for (Die die : diceMock) {
 			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}
@@ -492,7 +481,7 @@ public class GreedGameTest extends AndroidTestCase {
 			fail("Game not won after doing 10 ladders.");
 		} catch (GameWonException gwe) {
 			assertEquals("Final game score not correct.", GreedGame.POINTS_WINNER, game.getRoundScore());
-			assertEquals("Wrong number of turns recorded", 10, game.GetNoTurnsTaken());
+			assertEquals("Wrong number of turns recorded", 10, game.getNoTurnsTaken());
 		}
 	}
 }
