@@ -88,8 +88,8 @@ public class GreedGame {
 		roundScore = 0;
 		gameIsOn = true;
 		availableDice.clear();
+		turnScores.clear();
 		for (Die die : this.allDice) {
-			die.roll();
 			availableDice.add(die);
 		}
 	}

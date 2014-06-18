@@ -1,20 +1,12 @@
 package se.umu.androidcourse.erwe0033.greed;
 
-import java.util.Set;
-
 import se.umu.androidcourse.erwe0033.greed.model.Die;
 
-import android.content.Context;
 import android.widget.ImageView;
-
-
 
 public class DieView extends ImageView {
 	private Die die;
-	private enum DieStates {AVAILABLE, SELECTED, USED};
-	private DieStates state;
-	private Set<Die> selectedDice;
-	private DieAdapter dieAdapter;
+	private GreedActivity greedActivity;
 	private static int count = 0;
 	private int id;
 
@@ -31,12 +23,10 @@ public class DieView extends ImageView {
         R.drawable.grey4, R.drawable.grey5, R.drawable.grey6, 
     };
 
-	public DieView(Context context, DieAdapter dieAdapter, Set<Die> selectedDice, Die die) {
-		super(context);	
-		this.dieAdapter = dieAdapter;
-		this.selectedDice = selectedDice;
+	public DieView(GreedActivity greedActivity, Die die) {
+		super(greedActivity);	
+		this.greedActivity = greedActivity;
 		this.die = die;
-		this.state = DieStates.USED;
 		this.id = count++;
 	}
 
@@ -48,48 +38,10 @@ public class DieView extends ImageView {
 		return die;
 	}
 
-	public void select() {
-		if (state != DieStates.USED) {
-			this.state = DieStates.SELECTED;
-        	selectedDice.add(die);
-			setImage();
-		}
-		dieAdapter.notifyDataSetChanged();
-	}
-
-	public void unselect() {
-		if (state != DieStates.USED) {
-			this.state = DieStates.AVAILABLE;
-        	selectedDice.remove(die);
-			setImage();
-		}
-		dieAdapter.notifyDataSetChanged();
-	}
-
-	public void makeAvailable() {
-		this.state = DieStates.AVAILABLE;
-        selectedDice.remove(die);
-		setImage();
-		dieAdapter.notifyDataSetChanged();
-	}
-
-	public void toggleSelect() {
-        switch (state) {
-        	case AVAILABLE: select(); break;
-        	case SELECTED: unselect(); break;
-        	default:
-        }
-	}
-
-	public void used() {
-		this.state = DieStates.USED;
-		setImage();
-		dieAdapter.notifyDataSetChanged();
-	}
 
 	public void setImage() {
 		int pos = die.getValue() - 1;
-        switch (state) {
+        switch (greedActivity.stateOf(die)) {
         	case AVAILABLE:
         		setImageResource(availDieIDs[pos]);
         		break;

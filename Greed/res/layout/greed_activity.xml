@@ -49,15 +49,18 @@
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
 		android:layout_above="@id/dice_grid"
+		android:visibility="gone"
 		android:textSize="16sp"
 		android:text="@string/roll_button_text"
 	  	android:onClick="onRollClick"/>
+
 	<Button
 		android:id="@+id/score_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
     	android:layout_alignParentRight="true"
 		android:layout_above="@id/dice_grid"
+		android:visibility="gone"
 		android:textSize="16sp"
 		android:text="@string/score_button_text"
 	  	android:onClick="onScoreClick"/>
