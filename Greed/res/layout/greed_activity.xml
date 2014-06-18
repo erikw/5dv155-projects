@@ -35,17 +35,35 @@
     	android:layout_marginLeft="3dp"
     	android:text="0" />
 	<Button
-		android:id="@+id/roll_score_button"
+		android:id="@+id/restart_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+    	android:layout_alignParentLeft="true"
 		android:layout_above="@+id/dice_grid"
+		android:textSize="16sp"
+		android:text="@string/restart_button_text"
+	  	android:onClick="onRestartClick"/>
+	<Button
+		android:id="@+id/roll_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
-		android:textSize="24sp"
-		android:text="Roll"
-	  	android:onClick="onRollScoreClick"/>
+		android:layout_above="@id/dice_grid"
+		android:textSize="16sp"
+		android:text="@string/roll_button_text"
+	  	android:onClick="onRollClick"/>
+	<Button
+		android:id="@+id/score_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+    	android:layout_alignParentRight="true"
+		android:layout_above="@id/dice_grid"
+		android:textSize="16sp"
+		android:text="@string/score_button_text"
+	  	android:onClick="onScoreClick"/>
 
 	<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
-    	android:id="@+id/dice_grid"
+    	android:id="@id/dice_grid"
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"

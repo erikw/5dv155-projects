@@ -48,7 +48,6 @@ public class GreedActivity extends Activity
         this.selectedDice = new HashSet<Die>();
         this.diceMap = new HashMap<Die, DieView>();
         this.game = new GreedGame();
-        this.game.newRound();
 		this.dieAdapter = new DieAdapter(this, game.getAllDice(), selectedDice, diceMap);
 		this.roundScoreText = (TextView) findViewById(R.id.round_score);
 		this.numberTurnsText = (TextView) findViewById(R.id.number_turns);
@@ -56,8 +55,6 @@ public class GreedActivity extends Activity
     	GridView gridView = (GridView) findViewById(R.id.dice_grid);
     	gridView.setAdapter(this.dieAdapter);
     	gridView.setOnItemClickListener(new DieClickListener());
-
-        //Button rollScoreButton = (Button) findViewById(R.id.roll_score_button);
     }
 
 
@@ -65,11 +62,27 @@ public class GreedActivity extends Activity
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DieView dieView = (DieView) view;
                 dieView.toggleSelect();
-				
             }
     }
 
-    public void onRollScoreClick(View view) {
+    public void onRestartClick(View view) {
+        //Log.v(TAG, "restarting...");
+        this.game.newRound();
+        dieAdapter.notifyDataSetChanged();
+        for (Die die : diceMap.keySet()) {
+        	DieView dieView = (DieView) diceMap.get(die);
+			dieView.makeAvailable();
+			//Log.v(TAG, "Die made available." + die);
+			//Log.v(TAG, "from: " + dieView);
+        }
+        Toast.makeText(this, "New game started.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onRollClick(View view) {
+    	if (!game.gameIsOn()) {
+        	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
+        	return;
+    	}
 		if (selectedDice.size() == 0) {
         	Toast.makeText(this, "You must select at least one die.", Toast.LENGTH_SHORT).show();
 		} else {
@@ -100,6 +113,13 @@ public class GreedActivity extends Activity
 			roundScoreText.setText(Integer.toString(game.getRoundScore()));
 			numberTurnsText.setText(Integer.toString(game.getNoTurnsTaken()));
 		}
+    }
+
+    public void onScoreClick(View view) {
+    	if (!game.gameIsOn()) {
+        	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
+        	return;
+    	}
     }
 
 }

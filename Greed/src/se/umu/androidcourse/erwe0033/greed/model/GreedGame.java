@@ -60,6 +60,10 @@ public class GreedGame {
 		return roundScore;
 	}
 
+	public boolean gameIsOn() {
+		return gameIsOn;
+	}
+
 	public TurnScore getTurnScore() {
 		try {
 			return turnScores.peek();

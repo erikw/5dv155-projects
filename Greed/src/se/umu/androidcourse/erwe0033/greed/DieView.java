@@ -15,6 +15,8 @@ public class DieView extends ImageView {
 	private DieStates state;
 	private Set<Die> selectedDice;
 	private DieAdapter dieAdapter;
+	private static int count = 0;
+	private int id;
 
     private static Integer[] availDieIDs = {
         R.drawable.red1, R.drawable.red2, R.drawable.red3, 
@@ -34,7 +36,8 @@ public class DieView extends ImageView {
 		this.dieAdapter = dieAdapter;
 		this.selectedDice = selectedDice;
 		this.die = die;
-		this.state = DieStates.AVAILABLE;
+		this.state = DieStates.USED;
+		this.id = count++;
 	}
 
 	public void setDie(Die die) {
@@ -60,6 +63,13 @@ public class DieView extends ImageView {
         	selectedDice.remove(die);
 			setImage();
 		}
+		dieAdapter.notifyDataSetChanged();
+	}
+
+	public void makeAvailable() {
+		this.state = DieStates.AVAILABLE;
+        selectedDice.remove(die);
+		setImage();
 		dieAdapter.notifyDataSetChanged();
 	}
 
@@ -90,5 +100,9 @@ public class DieView extends ImageView {
         		setImageResource(usedDieIDs[pos]);
         		break;
         }
+	}
+
+	public String toString() {
+		return "DieViewID= " + id;
 	}
 }
