@@ -9,8 +9,8 @@ public class Die {
 
 
 	public Die(Random randGen) {
-		this.value = 0;
 		this.randGen = randGen;
+		roll();
 	}
 
 	public Die() {
@@ -22,7 +22,8 @@ public class Die {
 	}
 
 	public int roll() {
-		return randGen.nextInt(6) + 1;
+		this.value = randGen.nextInt(6) + 1;
+		return this.value;
 	}
 
 }
