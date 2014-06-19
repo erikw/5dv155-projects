@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Activity that is shown when the game is won.
+ */
 public class WinActivity extends Activity
 {
 	private final String TAG = this.getClass().getName();
@@ -36,6 +39,9 @@ public class WinActivity extends Activity
     	}
     }
 
+    /**
+     * Handle the event when the return button is pressed.
+     */
     public void onReturnClick(View view) {
     	finish();
     }

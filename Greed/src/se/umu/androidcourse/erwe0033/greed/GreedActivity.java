@@ -1,6 +1,3 @@
-// TODO Handle saveinstances?
-// TODO comment code lightly
-
 package se.umu.androidcourse.erwe0033.greed;
 
 import java.util.HashSet;
@@ -22,6 +19,10 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+/**
+ * Main activity that displayes the game and controls for it.
+ */
 
 public class GreedActivity extends Activity
 {
@@ -85,6 +86,9 @@ public class GreedActivity extends Activity
 
     }
 
+    /**
+     * Get the current state of a die; if it's selected, used or available.
+     */
     public DieState stateOf(Die die) {
         if (!game.getAvailableDice().contains(die)) {
 			return DieState.USED;
@@ -95,6 +99,9 @@ public class GreedActivity extends Activity
         }
     }
 
+	/**
+	 * Event handler for clicking on the restart button.
+	 */
     public void onRestartClick(View view) {
         //Log.v(TAG, "restarting...");
         game.newRound();
@@ -119,6 +126,9 @@ public class GreedActivity extends Activity
         Toast.makeText(this, "New game started.", Toast.LENGTH_SHORT).show();
     }
 
+	/**
+	 * Check if any die is selected.
+	 */
 	private boolean nothingSelected() {
 		if (selectedDice.size() == 0) {
         	Toast.makeText(this, "You must select at least one die.", Toast.LENGTH_SHORT).show();
@@ -128,6 +138,9 @@ public class GreedActivity extends Activity
         }
 	}
 
+	/**
+	 * Event handler for clicking on the roll button.
+	 */
     public void onRollClick(View view) {
     	if (!game.isOn()) {
         	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
@@ -192,6 +205,9 @@ public class GreedActivity extends Activity
 		numberTurnsText.setText(Integer.toString(game.getNoTurnsTaken()));
     }
 
+	/**
+	 * Event handler for clicking on the score button.
+	 */
     private void updateTurnScoreBoard(TurnScore score) {
     	for (ScoreCombination combo : score.getScoreCombos()) {
 			for (Die die : combo.getDice()) {

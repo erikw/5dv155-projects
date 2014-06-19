@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+/**
+ * Presents the underlaying dice in the GUI by creating views for the dice repsenting their state.
+ */
 public class DieAdapter extends BaseAdapter {
     private GreedActivity greedActivity;
 	private Die[] dice;
@@ -19,24 +22,27 @@ public class DieAdapter extends BaseAdapter {
         this.dice = dice;
     }
 
+    @Override
     public int getCount() {
         return dice.length;
     }
 
+    @Override
     public Object getItem(int position) {
         return dice[position];
     }
 
+    @Override
     public long getItemId(int position) {
         return 0;
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //Log.v(TAG, "getView(" + position + ")");
         DieView dieView;
 		if (convertView == null) {
             dieView = new DieView(greedActivity, dice[position]);
-            dieView.setLayoutParams(new GridView.LayoutParams(85, 85)); // TODO why?
+            dieView.setLayoutParams(new GridView.LayoutParams(85, 85));
             dieView.setAdjustViewBounds(true);
             dieView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		} else {
@@ -46,5 +52,4 @@ public class DieAdapter extends BaseAdapter {
 		dieView.updateImage();
         return dieView;
     }
-
 }

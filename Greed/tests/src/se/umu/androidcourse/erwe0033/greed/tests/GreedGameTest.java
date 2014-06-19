@@ -12,6 +12,9 @@ import se.umu.androidcourse.erwe0033.greed.model.*;
 import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameOverException;
 import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameWonException;
 
+/**
+ * Unit test of the game logic.
+ */
 public class GreedGameTest extends AndroidTestCase {
 	private GreedGame game;
 	private Die[] diceMock;
@@ -487,7 +490,3 @@ public class GreedGameTest extends AndroidTestCase {
 		}
 	}
 }
-
-
-// TODO can't roll before scored anything (unless first roll).
-// TODO return zeroScoreDice to the selection pool? let user play with them again?

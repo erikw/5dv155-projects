@@ -9,8 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-public class GreedGame {
 
+/**
+ * Representation and functionality for the whole game.
+ */
+public class GreedGame {
 	private int roundScore;
 	private Stack<TurnScore> turnScores;
 	private Die[] allDice;
@@ -28,14 +31,19 @@ public class GreedGame {
 	public static final int POINTS_WINNER = 10000;
 
 
+	/**
+	 * Game is over.
+	 */
 	public class GameOverException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
 
+	/**
+	 * Game is won.
+	 */
 	public class GameWonException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}
-
 
 	public GreedGame() {
 		roundScore = 0;
@@ -48,6 +56,9 @@ public class GreedGame {
 		gameIsOn = false;
 	}
 
+	/**
+	 * Replace the default dice with a new set of die.
+	 */
 	public void setDice(Die[] dice) {
 		allDice = dice;
 		availableDice.clear();
@@ -56,14 +67,17 @@ public class GreedGame {
 		}
 	}
 
+	/**
+	 * Get the score for this round.
+	 */
 	public int getRoundScore() {
 		return roundScore;
 	}
 
-	public boolean isOn() {
-		return gameIsOn;
-	}
 
+	/**
+	 * Get the score for the last turn.
+	 */
 	public TurnScore getTurnScore() {
 		try {
 			return turnScores.peek();
@@ -72,18 +86,37 @@ public class GreedGame {
 		}
 	}
 
+	/**
+	 * Is the game going on still?
+	 */
+	public boolean isOn() {
+		return gameIsOn;
+	}
+
+	/**
+	 * Get number of turns in this run.
+	 */
 	public int getNoTurnsTaken() {
 		return turnScores.size();
 	}
 
+	/**
+	 * Get all the dice used in this game.
+	 */
 	public Die[] getAllDice() {
 		return allDice;
 	}
 
+	/**
+	 * Get the dice that are available for scoring/rolling.
+	 */
 	public Set<Die> getAvailableDice() {
 		return availableDice;
 	}
 
+	/**
+	 * Start a new round.
+	 */
 	public void newRound() {
 		roundScore = 0;
 		gameIsOn = true;
@@ -94,6 +127,10 @@ public class GreedGame {
 		}
 	}
 
+	/**
+	 * Score with some selected dices.
+	 * Either a result is returned or a game state exception is thrown.
+	 */
 	public TurnScore scoreDice(Set<Die> selectedDice) throws GameOverException, GameWonException {
 		if (!gameIsOn) {
 			throw new GameOverException();
@@ -125,6 +162,9 @@ public class GreedGame {
 		 return score;
 	}
 
+	/**
+	 * Dheck if player tries to score with dice that are already used.
+	 */
 	private void checkForReuse(Set<Die> dice) {
 		for (Die die : dice) {
 			if (!availableDice.contains(die)) {
@@ -133,6 +173,9 @@ public class GreedGame {
 		}
 	}
 
+	/**
+	 * Score logic for ladder.
+	 */
 	private boolean scoreLadder(Set<Die> selectedDice, TurnScore score) {
 		if (selectedDice.size() != allDice.length) {
 			return false;
@@ -152,6 +195,9 @@ public class GreedGame {
 		}
 	}
 
+	/**
+	 * Score logic for triplets.
+	 */
 	private void scoreTriplets(Set<Die> selectedDice, TurnScore score) {
 		Map<Integer, LinkedList<Die>> triplets = new HashMap<Integer, LinkedList<Die>>();
 		for (Die die : selectedDice) {
@@ -184,6 +230,9 @@ public class GreedGame {
 		}
 	}
 
+	/**
+	 * Register some found triplets as scores.
+	 */
 	private void registerTripletScore(int dieValue, Set<Die> selectedDice, Set<Die> triplet, TurnScore score) {
 		int points;
 		if (dieValue == 1)	{
@@ -196,6 +245,9 @@ public class GreedGame {
 		selectedDice.removeAll(triplet);
 	}
 
+	/**
+	 * Score logic for singles.
+	 */
 	private void scoreSingles(Set<Die> selectedDice, TurnScore score) {
 		Iterator<Die> itr = selectedDice.iterator();
 		while (itr.hasNext()) {

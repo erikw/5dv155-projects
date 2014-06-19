@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * Handle the event when a die is selected in the GUI.
+ */
 public class DieClickListener implements OnItemClickListener {
 	private GreedActivity greedActivity;
 	private GreedGame game;
@@ -21,6 +24,8 @@ public class DieClickListener implements OnItemClickListener {
 		this.dieAdapter = dieAdapter;
 		this.selectedDice = selectedDice;
 	}
+
+	@Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     	if (!game.isOn()) {
     		return;
@@ -40,4 +45,3 @@ public class DieClickListener implements OnItemClickListener {
         }
     }
 }
-

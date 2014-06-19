@@ -4,6 +4,9 @@ import se.umu.androidcourse.erwe0033.greed.model.Die;
 
 import android.widget.ImageView;
 
+/**
+ * Graphical representation of a die.
+ */
 public class DieView extends ImageView {
 	private Die die;
 	private GreedActivity greedActivity;
@@ -27,14 +30,23 @@ public class DieView extends ImageView {
 		this.die = die;
 	}
 
+	/**
+	 * Set the die for this view.
+	 */
 	public void setDie(Die die) {
 		this.die = die;
 	}
 
+	/**
+	 * Get the die this view represents.
+	 */
 	public Die getDie() {
 		return die;
 	}
 
+	/**
+	 * Update this view by setting the right image.
+	 */
 	public void updateImage() {
 		int pos = die.getValue() - 1;
         switch (greedActivity.stateOf(die)) {
