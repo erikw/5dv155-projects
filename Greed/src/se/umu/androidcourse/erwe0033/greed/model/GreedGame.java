@@ -146,6 +146,7 @@ public class GreedGame {
 			ScoreCombination combo = new ScoreCombination(GreedGame.POINTS_LADDER, selectedDice);
 			score.addScore(combo);
 			selectedDice.clear();
+			availableDice.clear();
 			return true;
 		} else {
 			return false;
