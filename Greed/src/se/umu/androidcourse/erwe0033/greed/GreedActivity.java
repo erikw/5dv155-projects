@@ -4,6 +4,7 @@
 // TODO disable landscape mode?
 // TODO green snooker background
 // TODO Handle saveinstances?
+// TODO comment code lightly
 
 package se.umu.androidcourse.erwe0033.greed;
 

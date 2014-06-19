@@ -406,7 +406,7 @@ public class GreedGameTest extends AndroidTestCase {
 
 		selectedDice.clear();
 		Iterator<Die> itr = game.getAvailableDice().iterator();
-		for (int i = 0; i < 3; ++i) {
+		for (int i = 1; i < 4; ++i) {
 			Die die = (Die) itr.next();
 			die.setValue(i);
 			selectedDice.add(die);
