@@ -34,8 +34,27 @@
     	android:layout_toRightOf="@id/number_turns_label"
     	android:layout_marginLeft="3dp"
     	android:text="0" />
+	<TextView
+    	android:id="@+id/turn_scores_label"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+		android:layout_below="@id/number_turns_label"
+    	android:layout_marginTop="3dp"
+    	android:textStyle="bold"
+    	android:text="@string/turn_scores_label_text" />
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+		android:layout_below="@id/turn_scores_label"
+		android:layout_above="@+id/restart_button" >
+		<TextView
+    		android:id="@+id/turn_scores"
+    		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:text="" />
+	</ScrollView>
 	<Button
-		android:id="@+id/restart_button"
+		android:id="@id/restart_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
     	android:layout_alignParentLeft="true"
@@ -53,7 +72,6 @@
 		android:textSize="16sp"
 		android:text="@string/roll_button_text"
 	  	android:onClick="onRollClick"/>
-
 	<Button
 		android:id="@+id/score_button"
 		android:layout_width="wrap_content"
@@ -64,7 +82,6 @@
 		android:textSize="16sp"
 		android:text="@string/score_button_text"
 	  	android:onClick="onScoreClick"/>
-
 	<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
     	android:id="@id/dice_grid"
     	android:layout_width="wrap_content" 
@@ -76,13 +93,5 @@
     	android:horizontalSpacing="10dp"
     	android:stretchMode="columnWidth"
     	android:gravity="center" />
-
-	<!--<ImageView-->
-        <!--android:id="@id/test_die"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-		<!--android:layout_alignParentBottom="true"-->
-        <!--android:scaleType="center"-->
-        <!--android:src="@drawable/red1" />-->
 </RelativeLayout>
 

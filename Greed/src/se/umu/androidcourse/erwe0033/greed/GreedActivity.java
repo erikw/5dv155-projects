@@ -1,8 +1,6 @@
 // TODO make scalable app icon and die images.
 // TODO better (transparent icon)
 // TODO result activity
-// TODO turn scores list with points given.
-// TODO small legend with scoring rules?
 // TODO disable landscape mode?
 // TODO green snooker background
 
@@ -15,6 +13,7 @@ import se.umu.androidcourse.erwe0033.greed.model.Die;
 import se.umu.androidcourse.erwe0033.greed.model.GreedGame;
 import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameOverException;
 import se.umu.androidcourse.erwe0033.greed.model.GreedGame.GameWonException;
+import se.umu.androidcourse.erwe0033.greed.model.ScoreCombination;
 import se.umu.androidcourse.erwe0033.greed.model.TurnScore;
 
 import android.app.Activity;
@@ -31,8 +30,13 @@ public class GreedActivity extends Activity
 	private GreedGame game;
 	private Set<Die> selectedDice;
 	private DieAdapter dieAdapter;
+	private TextView roundScoreLabel;
 	private TextView roundScoreText;
+	private TextView numberTurnsLabel;
 	private TextView numberTurnsText;
+	private TextView turnScoresLabel;
+	private TextView turnScoresText;
+	private StringBuilder turnScoresBuilder;
 	private Button restartButton;
 	private Button rollButton;
 	private Button scoreButton;
@@ -47,6 +51,7 @@ public class GreedActivity extends Activity
         setContentView(R.layout.greed_activity);
 
         this.selectedDice = new HashSet<Die>();
+        this.turnScoresBuilder = new StringBuilder();
         this.game = new GreedGame();
 
     	int dieCount = 1;
@@ -55,11 +60,21 @@ public class GreedActivity extends Activity
     	}
 
 		this.dieAdapter = new DieAdapter(this, game.getAllDice());
+		this.roundScoreLabel= (TextView) findViewById(R.id.round_score_label);
 		this.roundScoreText = (TextView) findViewById(R.id.round_score);
+		this.numberTurnsLabel = (TextView) findViewById(R.id.number_turns_label);
 		this.numberTurnsText = (TextView) findViewById(R.id.number_turns);
+		this.turnScoresLabel = (TextView) findViewById(R.id.turn_scores_label);
+		this.turnScoresText = (TextView) findViewById(R.id.turn_scores);
 		this.restartButton = (Button) findViewById(R.id.restart_button);
 		this.rollButton = (Button) findViewById(R.id.roll_button);
 		this.scoreButton = (Button) findViewById(R.id.score_button);
+
+		roundScoreLabel.setVisibility(View.GONE);
+		roundScoreText.setVisibility(View.GONE);
+		numberTurnsLabel.setVisibility(View.GONE);
+		numberTurnsText.setVisibility(View.GONE);
+		turnScoresLabel.setVisibility(View.GONE);
 
 
     	GridView gridView = (GridView) findViewById(R.id.dice_grid);
@@ -88,10 +103,16 @@ public class GreedActivity extends Activity
         dieAdapter.notifyDataSetChanged();
 
         restartButton.setText("Restart");
+		roundScoreLabel.setVisibility(View.VISIBLE);
+		roundScoreText.setVisibility(View.VISIBLE);
+		numberTurnsLabel.setVisibility(View.VISIBLE);
+		numberTurnsText.setVisibility(View.VISIBLE);
+		turnScoresLabel.setVisibility(View.VISIBLE);
         rollButton.setVisibility(View.VISIBLE);
         scoreButton.setVisibility(View.VISIBLE);
 		roundScoreText.setText("0");
 		numberTurnsText.setText("0");
+		turnScoresText.setText("");
         Toast.makeText(this, "New game started.", Toast.LENGTH_SHORT).show();
     }
 
@@ -129,28 +150,41 @@ public class GreedActivity extends Activity
 		if (nothingSelected()) {
 			return;
 		}
-		TurnScore turnScore = null;
 		try {
-			turnScore = game.scoreDice(selectedDice);
+			TurnScore turnScore = game.scoreDice(selectedDice);
         	rollButton.setVisibility(View.VISIBLE);
+			Toast.makeText(this, turnScore.getTotalScore() + " points! ", Toast.LENGTH_SHORT).show();
+        	updateTurnScoreBoard(turnScore);
 		} catch (GameOverException goe) {
-			Toast.makeText(this, "Game over!", Toast.LENGTH_SHORT).show();
+			String message;
+			if (game.getNoTurnsTaken() == 1) {
+				message = "<300 points on first round.";
+			} else {
+				message = "No points scored.";
+			}
+			message += " Game over!";
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         	scoreButton.setVisibility(View.GONE);
         	rollButton.setVisibility(View.GONE);
 		} catch (GameWonException gwe) {
-			Toast.makeText(this, "Game over!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Game won!", Toast.LENGTH_SHORT).show();
         	scoreButton.setVisibility(View.GONE);
         	rollButton.setVisibility(View.GONE);
 		}
 		selectedDice.clear();
         dieAdapter.notifyDataSetChanged();
-        updateTurnScoreBoard(turnScore);
 
 		roundScoreText.setText(Integer.toString(game.getRoundScore()));
 		numberTurnsText.setText(Integer.toString(game.getNoTurnsTaken()));
     }
 
     private void updateTurnScoreBoard(TurnScore score) {
-
+    	for (ScoreCombination combo : score.getScoreCombos()) {
+			for (Die die : combo.getDice()) {
+				turnScoresBuilder.append(String.format("[%d] ", die.getValue()));
+			}
+			turnScoresBuilder.append(String.format("= %dp\n", combo.getScore()));
+    	}
+    	turnScoresText.setText(turnScoresBuilder.toString());
     }
 }

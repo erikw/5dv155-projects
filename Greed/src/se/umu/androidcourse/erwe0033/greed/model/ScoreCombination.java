@@ -17,6 +17,10 @@ public class ScoreCombination {
 		return points;
 	}
 
+	public Set<Die> getDice() {
+		return dice;
+	}
+
 	// TODO  get total score for this combo.
 
 
