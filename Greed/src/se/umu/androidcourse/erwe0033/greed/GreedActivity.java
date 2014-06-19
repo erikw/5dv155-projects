@@ -158,6 +158,11 @@ public class GreedActivity extends Activity
         	rollButton.setVisibility(View.VISIBLE);
 			Toast.makeText(this, turnScore.getTotalScore() + " points! ", Toast.LENGTH_SHORT).show();
         	updateTurnScoreBoard(turnScore);
+        	if (game.getAvailableDice().size() == 6) {
+        		for (Die die : game.getAllDice()) {
+        			die.roll();
+        		}
+        	}
 		} catch (GameOverException goe) {
 			String message;
 			if (game.getNoTurnsTaken() == 1) {

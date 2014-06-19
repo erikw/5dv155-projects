@@ -460,16 +460,18 @@ public class GreedGameTest extends AndroidTestCase {
 	}
 
 	public void testWinGame() throws GameOverException {
-		int dieValue = 1;
 		Set<Die> selectedDice = new HashSet<Die>();
 		for (Die die : diceMock) {
-			die.setValue(dieValue++);
 			selectedDice.add(die);
 		}
 		game.setDice(diceMock);
 		game.newRound();
 		int expScore = 0;
 		for (int loop = 0; loop < 9; ++loop) {
+			int dieValue = 1;
+			for (Die die : diceMock) {
+				die.setValue(dieValue++);
+			}
 			try {
 				game.scoreDice(selectedDice);
 			} catch (Exception e) { }

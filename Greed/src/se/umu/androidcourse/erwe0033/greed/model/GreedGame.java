@@ -111,7 +111,6 @@ public class GreedGame {
 		this.roundScore += score.getTotalScore();
 		if (availableDice.size() == 0) {
 			for (Die die : this.allDice) {
-				die.roll();
 				availableDice.add(die);
 			}
 		}
