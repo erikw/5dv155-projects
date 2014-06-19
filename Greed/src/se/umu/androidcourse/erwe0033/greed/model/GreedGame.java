@@ -60,7 +60,7 @@ public class GreedGame {
 		return roundScore;
 	}
 
-	public boolean gameIsOn() {
+	public boolean isOn() {
 		return gameIsOn;
 	}
 

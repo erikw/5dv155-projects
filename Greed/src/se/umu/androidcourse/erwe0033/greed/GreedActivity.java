@@ -3,6 +3,7 @@
 // TODO result activity
 // TODO disable landscape mode?
 // TODO green snooker background
+// TODO Handle saveinstances?
 
 package se.umu.androidcourse.erwe0033.greed;
 
@@ -79,7 +80,7 @@ public class GreedActivity extends Activity
 
     	GridView gridView = (GridView) findViewById(R.id.dice_grid);
     	gridView.setAdapter(this.dieAdapter);
-    	gridView.setOnItemClickListener(new DieClickListener(this, dieAdapter, selectedDice));
+    	gridView.setOnItemClickListener(new DieClickListener(this, game, dieAdapter, selectedDice));
 
     }
 
@@ -113,6 +114,7 @@ public class GreedActivity extends Activity
 		roundScoreText.setText("0");
 		numberTurnsText.setText("0");
 		turnScoresText.setText("");
+		turnScoresBuilder.setLength(0);
         Toast.makeText(this, "New game started.", Toast.LENGTH_SHORT).show();
     }
 
@@ -126,7 +128,7 @@ public class GreedActivity extends Activity
 	}
 
     public void onRollClick(View view) {
-    	if (!game.gameIsOn()) {
+    	if (!game.isOn()) {
         	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
         	return;
     	} else if (nothingSelected()) {
@@ -143,7 +145,7 @@ public class GreedActivity extends Activity
     }
 
     public void onScoreClick(View view) {
-    	if (!game.gameIsOn()) {
+    	if (!game.isOn()) {
         	Toast.makeText(this, "Game is not started yet!", Toast.LENGTH_SHORT).show();
         	return;
     	}
@@ -166,6 +168,8 @@ public class GreedActivity extends Activity
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         	scoreButton.setVisibility(View.GONE);
         	rollButton.setVisibility(View.GONE);
+			TurnScore turnScore = game.getTurnScore();
+        	updateTurnScoreBoard(turnScore);
 		} catch (GameWonException gwe) {
 			Toast.makeText(this, "Game won!", Toast.LENGTH_SHORT).show();
         	scoreButton.setVisibility(View.GONE);
