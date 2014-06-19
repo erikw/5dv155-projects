@@ -19,6 +19,7 @@ import se.umu.androidcourse.erwe0033.greed.model.ScoreCombination;
 import se.umu.androidcourse.erwe0033.greed.model.TurnScore;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +44,10 @@ public class GreedActivity extends Activity
 	private Button rollButton;
 	private Button scoreButton;
 	public enum DieState {AVAILABLE, SELECTED, USED};
+
+	// Package visibility.
+	static final String INTENT_ROUND_SCORE = "se.umu.androidcourse.erwe0033.greed.round_score";
+	static final String INTENT_NO_TURNS =  "se.umu.androidcourse.erwe0033.greed.no_turns";
 
 	private final String TAG = this.getClass().getName();
 
@@ -175,6 +180,10 @@ public class GreedActivity extends Activity
 			Toast.makeText(this, "Game won!", Toast.LENGTH_SHORT).show();
         	scoreButton.setVisibility(View.GONE);
         	rollButton.setVisibility(View.GONE);
+        	Intent winIntent = new Intent(GreedActivity.this, WinActivity.class);
+        	winIntent.putExtra(GreedActivity.INTENT_ROUND_SCORE, game.getRoundScore());
+        	winIntent.putExtra(GreedActivity.INTENT_NO_TURNS, game.getNoTurnsTaken());
+        	startActivity(winIntent);
 		}
 		selectedDice.clear();
         dieAdapter.notifyDataSetChanged();

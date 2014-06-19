@@ -7,4 +7,6 @@
     <string name="restart_button_text">Start</string>
     <string name="roll_button_text">Roll</string>
     <string name="score_button_text">Score</string>
+    <string name="win_return_button_text">Return to game</string>
+    <string name="win_greeting_text">Congratulations, game won!</string>
 </resources>
