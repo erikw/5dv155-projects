@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Main activity that displayes the game and controls for it.
+ * Main activity that displays the game and controls for it.
  */
 
 public class GreedActivity extends Activity
