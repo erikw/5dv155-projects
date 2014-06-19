@@ -66,6 +66,8 @@
 		android:layout_height="wrap_content"
     	android:layout_alignParentLeft="true"
 		android:layout_above="@+id/dice_grid"
+		android:background="@color/text_color"
+		android:padding="10dp"
 		android:textSize="16sp"
 		android:text="@string/restart_button_text"
 	  	android:onClick="onRestartClick"/>
@@ -76,6 +78,8 @@
 		android:layout_centerHorizontal="true"
 		android:layout_above="@id/dice_grid"
 		android:visibility="gone"
+		android:background="@color/text_color"
+		android:padding="10dp"
 		android:textSize="16sp"
 		android:text="@string/roll_button_text"
 	  	android:onClick="onRollClick"/>
@@ -86,6 +90,8 @@
     	android:layout_alignParentRight="true"
 		android:layout_above="@id/dice_grid"
 		android:visibility="gone"
+		android:background="@color/text_color"
+		android:padding="10dp"
 		android:textSize="16sp"
 		android:text="@string/score_button_text"
 	  	android:onClick="onScoreClick"/>

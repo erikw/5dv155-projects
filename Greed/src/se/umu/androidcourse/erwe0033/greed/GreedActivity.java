@@ -1,8 +1,3 @@
-// TODO make scalable app icon and die images.
-// TODO better (transparent icon)
-// TODO result activity
-// TODO disable landscape mode?
-// TODO green snooker background
 // TODO Handle saveinstances?
 // TODO comment code lightly
 
