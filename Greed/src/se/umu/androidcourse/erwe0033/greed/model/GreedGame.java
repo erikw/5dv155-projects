@@ -25,8 +25,7 @@ public class GreedGame {
 	public static final int POINTS_SINGLES_FIVES = 50;
 	public static final int POINTS_LADDER = 1000;
 	public static final int POINTS_CUT = 300;
-	//public static final int POINTS_WINNER = 10000;
-	public static final int POINTS_WINNER = 500;
+	public static final int POINTS_WINNER = 10000;
 
 
 	public class GameOverException extends Exception {
